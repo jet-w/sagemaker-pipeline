@@ -19,10 +19,10 @@ def get_sklean_training_args(pipeline_session, step_process):
         sagemaker_session= pipeline_session,
     )
     
-    print(step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri.to_string())
+    #print(step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri.to_string())
 
-    model_s3 = os.path.dirname(str(step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri))
-    model_s3 = f"{model_s3}/model"
+    #model_s3 = os.path.dirname(str(step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri))
+    #model_s3 = f"{model_s3}/model"
 
     # NOTE how the input to the training job directly references the output of the previous step.
     #train_args = tf2_estimator.fit(
@@ -36,10 +36,10 @@ def get_sklean_training_args(pipeline_session, step_process):
                 s3_data=step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri,
                 content_type="text/csv",
             ),
-            "model": TrainingInput(
-                s3_data=model_s3,
-                content_type="text/csv",
-            ),
+            #"model": TrainingInput(
+            #    s3_data=model_s3,
+            #    content_type="text/csv",
+            #),
         }
     )
 
