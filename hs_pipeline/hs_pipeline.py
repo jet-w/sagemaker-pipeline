@@ -14,6 +14,7 @@ from .process_args import get_process_args
 from .training_args import get_training_args
 from .evaluation_args import get_evaluation_args
 from .register import get_register_pipeline_model
+
 from etc.conf import *
 
 def get_pipeline():

@@ -28,11 +28,11 @@ raw_dir = os.path.join(os.getcwd(), "data", "raw")
 ################################################################################
 raw_s3 = "s3://shared-hs-mlops-bucket/mas-pipeline-model-example/data/raw"
 s3 = boto3.client("s3")
-#s3.download_file(
-#    f"sagemaker-example-files-prod-{region}",
-#    "datasets/tabular/california_housing/cal_housing.tgz",
-#    "cal_housing.tgz",
-#)
+s3.download_file(
+    f"sagemaker-example-files-prod-{region}",
+    "datasets/tabular/california_housing/cal_housing.tgz",
+    "cal_housing.tgz",
+)
 
 feature_columns = [
     "longitude",
@@ -52,6 +52,7 @@ cal_housing_df = pd.read_csv("CaliforniaHousing/cal_housing.data", names=columns
 cal_housing_df["medianHouseValue"] /= 500000  
 cal_housing_df.to_csv(f"./data/raw/raw_data_all.csv", header=True, index=False)
 rawdata_s3_prefix = "{}/data/raw".format(prefix)
-raw_s3 = sagemaker_session.upload_data(bucket = bucket, path="./data/raw/", key_prefix=rawdata_s3_prefix)
+data_path = os.path.join(os.path.dirname(__file__), "../data/raw/")
+raw_s3 = sagemaker_session.upload_data(bucket = bucket, path=data_path, key_prefix=rawdata_s3_prefix)
 
 
