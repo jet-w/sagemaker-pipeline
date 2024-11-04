@@ -7,7 +7,7 @@ import pathlib
 import tarfile
 import tensorflow as tf
 
-from etc.conf import *
+from etc import *
 
 if __name__ == "__main__":
     model_path = f"/opt/ml/processing/model/model.tar.gz"

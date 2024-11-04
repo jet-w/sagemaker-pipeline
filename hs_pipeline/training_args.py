@@ -1,7 +1,7 @@
 from sagemaker.tensorflow import TensorFlow
 from sagemaker.inputs import TrainingInput
 
-from etc.conf import *
+from etc import *
 
 def get_training_args(pipeline_session, step_process):
     tf2_estimator = TensorFlow(

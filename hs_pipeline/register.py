@@ -8,7 +8,13 @@ from sagemaker import PipelineModel
 
 import sagemaker
 
-def get_register_pipeline_model(step_process, step_evaluate_model, step_train_model, role, pipeline_session, sklearn_framework_version, region, tensorflow_version, model_package_group_name, model_approval_status):
+from etc import *
+
+def get_register_pipeline_model(
+        step_process, 
+        step_evaluate_model, 
+        step_train_model
+    ):
     
     scaler_model_s3 = "{}/model.tar.gz".format(
         step_process.arguments["ProcessingOutputConfig"]["Outputs"][0]["S3Output"]["S3Uri"]

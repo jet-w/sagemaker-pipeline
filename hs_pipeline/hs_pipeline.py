@@ -6,7 +6,7 @@ from sagemaker.workflow.model_step import ModelStep
 from sagemaker.workflow.condition_step import ConditionStep
 from sagemaker.workflow.properties import PropertyFile
 
-from sagemaker.workflow.conditions import ConditionLessThanOrEqualTo
+from sagemaker.workflow.conditions import ConditionLessThanOrEqualTo, ConditionGreaterThan
 from sagemaker.workflow.condition_step import ConditionStep
 from sagemaker.workflow.functions import JsonGet
 
@@ -15,7 +15,7 @@ from .training_args import get_training_args
 from .evaluation_args import get_evaluation_args
 from .register import get_register_pipeline_model
 
-from etc.conf import *
+from etc import *
 
 def get_pipeline():
     # Create a PropertyFile
@@ -60,7 +60,7 @@ def get_pipeline():
         ),
         right=accuracy_mse_threshold,
     )
-    
+
     step_register_pipeline_model = get_register_pipeline_model(step_evaluate_model, step_evaluate_model, step_train_model, role, pipeline_session, sklearn_framework_version, region, tensorflow_version, model_package_group_name, model_approval_status)
     
     # Create a Sagemaker Pipelines ConditionStep, using the condition above.
