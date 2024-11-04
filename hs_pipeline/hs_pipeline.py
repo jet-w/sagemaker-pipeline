@@ -29,9 +29,7 @@ def get_pipeline():
         name="HS-mlops-PreprocessData",
         step_args=get_process_args(
             pipeline_session
-        ),
-        #dependencies=["requirements.txt", "my_custom_code/"] 
-        dependencies=["requirements.txt", "etc/"] 
+        )
     )
     
     step_train_model = TrainingStep(
