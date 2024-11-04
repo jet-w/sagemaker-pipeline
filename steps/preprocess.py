@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 import tarfile
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirnmae(__file__), ".."))
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 try:
     from sagemaker_containers.beta.framework import (
         content_types, encoders, env, modules,

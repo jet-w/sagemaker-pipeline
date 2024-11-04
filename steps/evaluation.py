@@ -1,12 +1,13 @@
-import os
 import json
-import sys
 import numpy as np
 import pandas as pd
 import pathlib
 import tarfile
 import tensorflow as tf
 
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from etc import *
 
 if __name__ == "__main__":
