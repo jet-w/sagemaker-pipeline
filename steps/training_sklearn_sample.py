@@ -6,7 +6,18 @@ import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from etc import feature_columns, label_column
+#from etc import feature_columns, label_column
+feature_columns = [
+    "longitude",
+    "latitude",
+    "housingMedianAge",
+    "totalRooms",
+    "totalBedrooms",
+    "population",
+    "households",
+    "medianIncome",
+]
+label_column    = "medianHouseValue"
 
 def parse_args():
     parser = argparse.ArgumentParser()

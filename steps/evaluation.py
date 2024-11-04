@@ -8,7 +8,19 @@ import tensorflow as tf
 import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from etc import *
+#from etc import *
+
+feature_columns = [
+    "longitude",
+    "latitude",
+    "housingMedianAge",
+    "totalRooms",
+    "totalBedrooms",
+    "population",
+    "households",
+    "medianIncome",
+]
+label_column    = "medianHouseValue"
 
 if __name__ == "__main__":
     model_path = f"/opt/ml/processing/model/model.tar.gz"
