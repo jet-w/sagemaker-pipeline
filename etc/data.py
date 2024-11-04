@@ -45,7 +45,7 @@ feature_columns = [
     "medianIncome",
 ]
 label_column    = "medianHouseValue"
-columns = feature_columns + label_column
+columns = feature_columns + [label_column,]
 
 cal_housing_df = pd.read_csv("CaliforniaHousing/cal_housing.data", names=columns, header=None)
 # Scaling target down to avoid overcomplicating the example
