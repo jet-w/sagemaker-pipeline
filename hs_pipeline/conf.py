@@ -13,6 +13,7 @@ def get_execution_role():
 sess              = boto3.Session()
 sm                = sess.client("sagemaker")
 role              = get_execution_role()
+role_arn          = f"arn:aws:iam::654654179472:role/service-role/{role}"
 sagemaker_session = sagemaker.Session(boto_session=sess)
 bucket            = "shared-hs-mlops-bucket" #sagemaker_session.default_bucket()
 region            = boto3.Session().region_name
