@@ -36,11 +36,11 @@ os.makedirs(raw_dir, exist_ok=True)
 ################################################################################
 raw_s3 = "s3://shared-hs-mlops-bucket/mas-pipeline-model-example/data/raw"
 s3 = boto3.client("s3")
-s3.download_file(
-    f"sagemaker-example-files-prod-{region}",
-    "datasets/tabular/california_housing/cal_housing.tgz",
-    "cal_housing.tgz",
-)
+#s3.download_file(
+#    f"sagemaker-example-files-prod-{region}",
+#    "datasets/tabular/california_housing/cal_housing.tgz",
+#    "cal_housing.tgz",
+#)
 columns = [
     "longitude",
     "latitude",
