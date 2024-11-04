@@ -14,7 +14,7 @@ from .process_args import get_process_args
 from .training_args import get_training_args
 from .evaluation_args import get_evaluation_args
 from .register import get_register_pipeline_model
-from .conf import *
+from etc.conf import *
 
 def get_pipeline():
     # Create a PropertyFile
@@ -36,7 +36,13 @@ def get_pipeline():
     
     step_train_model = TrainingStep(
         name="HS-mlops-TrainModel", 
-        step_args=get_training_args(bucket, prefix, training_epochs, role, pipeline_session, training_instance_type, step_process)
+        step_args=get_training_args(
+            training_epochs, 
+            role, 
+            pipeline_session, 
+            training_instance_type, 
+            step_process
+        )
     )
     
     step_evaluate_model = ProcessingStep(

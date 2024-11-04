@@ -5,26 +5,15 @@ import numpy as np
 import pandas as pd
 import pathlib
 import tarfile
+import tensorflow as tf
 
-
-feature_columns = [
-    "longitude",
-    "latitude",
-    "housingMedianAge",
-    "totalRooms",
-    "totalBedrooms",
-    "population",
-    "households",
-    "medianIncome",
-]
-label_column = "medianHouseValue"
+from etc.conf import *
 
 if __name__ == "__main__":
     model_path = f"/opt/ml/processing/model/model.tar.gz"
     with tarfile.open(model_path, "r:gz") as tar:
         tar.extractall("./model")
-    import tensorflow as tf
-
+    
     model = tf.keras.models.load_model("./model/1")
     test_path = "/opt/ml/processing/test/"
     df = pd.read_csv(test_path + "/test.csv")
