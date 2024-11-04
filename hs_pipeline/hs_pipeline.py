@@ -11,7 +11,7 @@ from sagemaker.workflow.condition_step import ConditionStep
 from sagemaker.workflow.functions import JsonGet
 
 from .process_args import get_process_args
-from .training_args import get_training_args
+from .training_args import get_sklean_training_args
 from .evaluation_args import get_evaluation_args
 from .register import get_register_pipeline_model
 
@@ -37,7 +37,7 @@ def get_pipeline():
     
     step_train_model = TrainingStep(
         name="HS-mlops-TrainModel", 
-        step_args=get_training_args(
+        step_args=get_sklean_training_args(
             pipeline_session, 
             step_process
         )
@@ -45,7 +45,7 @@ def get_pipeline():
     
     step_evaluate_model = ProcessingStep(
         name="HS-mlops-EvaluateModelPerformance",
-        step_args=get_evaluation_args(region, tensorflow_version, role, processing_instance_type, pipeline_session, step_process, step_train_model),
+        step_args=get_evaluation_args(pipeline_session, step_process, step_train_model),
         property_files=[evaluation_report],
     )
     

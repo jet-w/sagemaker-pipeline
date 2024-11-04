@@ -4,18 +4,7 @@ import os
 import tensorflow as tf
 import pandas as pd
 
-feature_columns = [
-    "longitude",
-    "latitude",
-    "housingMedianAge",
-    "totalRooms",
-    "totalBedrooms",
-    "population",
-    "households",
-    "medianIncome",
-]
-label_column = "medianHouseValue"
-
+from etc import feature_columns, label_column
 
 def parse_args():
     parser = argparse.ArgumentParser()

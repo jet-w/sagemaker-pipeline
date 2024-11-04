@@ -1,8 +1,9 @@
 import sagemaker
 from sagemaker.sklearn.processing import ScriptProcessor
 from sagemaker.processing import ProcessingInput, ProcessingOutput
+from etc import *
 
-def get_evaluation_args(region, tensorflow_version, role, processing_instance_type, pipeline_session, step_process, step_train_model):
+def get_evaluation_args(pipeline_session, step_process, step_train_model):
     tf_eval_image_uri = sagemaker.image_uris.retrieve(
         framework="tensorflow",
         version=tensorflow_version,
