@@ -1,8 +1,9 @@
 
 from sagemaker.processing import ProcessingInput, ProcessingOutput
 from sagemaker.sklearn.processing import SKLearnProcessor
+from etc import input_data, role, processing_instance_count
 
-def get_process_args(input_data, role, processing_instance_count, pipeline_session):
+def get_process_args(pipeline_session):
     sklearn_framework_version = "1.2-1"
     sklearn_processor = SKLearnProcessor(
         framework_version=sklearn_framework_version,
