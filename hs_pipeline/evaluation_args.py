@@ -5,11 +5,11 @@ from sagemaker.processing import ProcessingInput, ProcessingOutput
 def get_evaluation_args(region, tensorflow_version, role, processing_instance_type, pipeline_session, step_process, step_train_model):
     tf_eval_image_uri = sagemaker.image_uris.retrieve(
         framework="tensorflow",
-        region=region,
         version=tensorflow_version,
+        instance_type="ml.m5.xlarge",
+        region=region,
         image_scope="training",
         py_version="py37",
-        instance_type="ml.m5.xlarge",
     )
     
     evaluate_model_processor = ScriptProcessor(

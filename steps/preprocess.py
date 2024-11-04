@@ -13,21 +13,6 @@ try:
 except ImportError:
     pass
 
-feature_columns = [
-    "longitude",
-    "latitude",
-    "housingMedianAge",
-    "totalRooms",
-    "totalBedrooms",
-    "population",
-    "households",
-    "medianIncome",
-]
-label_column    = "medianHouseValue"
-
-base_dir        = "/opt/ml/processing"
-base_output_dir = "/opt/ml/output/"
-
 if __name__ == "__main__":
     df = pd.read_csv(f"{base_dir}/input/raw_data_all.csv")
     feature_data = df.drop(label_column, axis=1, inplace=False)

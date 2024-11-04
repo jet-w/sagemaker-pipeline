@@ -37,10 +37,7 @@ def get_pipeline():
     step_train_model = TrainingStep(
         name="HS-mlops-TrainModel", 
         step_args=get_training_args(
-            training_epochs, 
-            role, 
             pipeline_session, 
-            training_instance_type, 
             step_process
         )
     )
