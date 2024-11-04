@@ -26,7 +26,12 @@ def get_pipeline():
     
     step_process = ProcessingStep(
         name="HS-mlops-PreprocessData",
-        step_args=get_process_args(input_data, role, processing_instance_count, pipeline_session),
+        step_args=get_process_args(
+            input_data, 
+            role, 
+            processing_instance_count, 
+            pipeline_session
+        ),
     )
     
     step_train_model = TrainingStep(
