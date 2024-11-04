@@ -1,6 +1,6 @@
 import os
 from sagemaker.workflow.parameters import ParameterInteger, ParameterString, ParameterFloat
-from sagemaker.workflow.pipeline_context import PipelineSession
+from sagemaker.workflow.pipeline_context import PipelineSession, LocalPipelineSession
 import sagemaker
 import boto3
 
@@ -32,7 +32,8 @@ os.makedirs(raw_dir, exist_ok=True)
 
 raw_s3 = "s3://shared-hs-mlops-bucket/mas-pipeline-model-example/data/raw"
 
-pipeline_session = PipelineSession()
+#pipeline_session = PipelineSession()
+pipeline_session = LocalPipelineSession()
 
 # raw input data
 input_data               = ParameterString(name="InputData", default_value=raw_s3)

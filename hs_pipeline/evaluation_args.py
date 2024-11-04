@@ -3,7 +3,6 @@ from sagemaker.sklearn.processing import ScriptProcessor
 from sagemaker.processing import ProcessingInput, ProcessingOutput
 
 def get_evaluation_args(region, tensorflow_version, role, processing_instance_type, pipeline_session, step_process, step_train_model):
-
     tf_eval_image_uri = sagemaker.image_uris.retrieve(
         framework="tensorflow",
         region=region,
@@ -35,5 +34,5 @@ def get_evaluation_args(region, tensorflow_version, role, processing_instance_ty
         outputs=[
             ProcessingOutput(output_name="evaluation", source="/opt/ml/processing/evaluation"),
         ],
-        code="code/evaluate.py",
+        code="steps/evaluation.py",
     )

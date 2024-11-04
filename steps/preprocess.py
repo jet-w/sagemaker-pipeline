@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import os
 import json
+import sys
 import joblib
 from io import StringIO
 from sklearn.preprocessing import StandardScaler
@@ -33,6 +34,8 @@ base_dir        = "/opt/ml/processing"
 base_output_dir = "/opt/ml/output/"
 
 if __name__ == "__main__":
+    print("*"*100)
+    print(sys.args)
     df = pd.read_csv(f"{base_dir}/input/raw_data_all.csv")
     feature_data = df.drop(label_column, axis=1, inplace=False)
     label_data = df[label_column]

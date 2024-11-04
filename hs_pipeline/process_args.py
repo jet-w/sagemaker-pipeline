@@ -23,5 +23,5 @@ def get_process_args(input_data, role, processing_instance_count, pipeline_sessi
             ProcessingOutput(output_name="train", source="/opt/ml/processing/train"),
             ProcessingOutput(output_name="test", source="/opt/ml/processing/test"),
         ],
-        code="code/preprocess.py",
+        code="steps/preprocess.py",
     )

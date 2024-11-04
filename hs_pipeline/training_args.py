@@ -10,8 +10,8 @@ def get_training_args(bucket, prefix, training_epochs, role, pipeline_session, t
     python_version = "py37"
     
     tf2_estimator = TensorFlow(
-        source_dir="code",
-        entry_point="train.py",
+        source_dir="steps",
+        entry_point="training.py",
         instance_type=training_instance_type,
         instance_count=1,
         framework_version=tensorflow_version,

@@ -25,17 +25,17 @@ def get_pipeline():
     )
     
     step_process = ProcessingStep(
-        name="PreprocessData",
+        name="HS-mlops-PreprocessData",
         step_args=get_process_args(input_data, role, processing_instance_count, pipeline_session),
     )
     
     step_train_model = TrainingStep(
-        name="TrainTensorflowModel", 
+        name="HS-mlops-TrainModel", 
         step_args=get_training_args(bucket, prefix, training_epochs, role, pipeline_session, training_instance_type, step_process)
     )
     
     step_evaluate_model = ProcessingStep(
-        name="EvaluateModelPerformance",
+        name="HS-mlops-EvaluateModelPerformance",
         step_args=get_evaluation_args(region, tensorflow_version, role, processing_instance_type, pipeline_session, step_process, step_train_model),
         property_files=[evaluation_report],
     )
@@ -57,7 +57,7 @@ def get_pipeline():
     # Create a Sagemaker Pipelines ConditionStep, using the condition above.
     # Enter the steps to perform if the condition returns True / False.
     step_cond = ConditionStep(
-        name="MSE-Lower-Than-Threshold-Condition",
+        name="HS-mlops-MSE-Lower-Than-Threshold-Condition",
         conditions=[cond_lte],
         if_steps=[step_register_pipeline_model],  # step_register_model, step_register_scaler,
         else_steps=[],
