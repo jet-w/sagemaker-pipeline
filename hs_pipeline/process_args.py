@@ -14,15 +14,18 @@ def get_process_args(pipeline_session):
         sagemaker_session=pipeline_session,
     )
     
+    s3_scaler = "s3://{bucket}/humansystem/models/scaler"
+    s3_train = "s3://{bucket}/humansystem/train/train"
+    s3_test = "s3://{bucket}/humansystem/test/test"
     #processor_args = sklearn_processor.run(
     return sklearn_processor.run(
         inputs=[
             ProcessingInput(source=input_data, destination="/opt/ml/processing/input"),
         ],
         outputs=[
-            ProcessingOutput(output_name="scaler_model", source="/opt/ml/processing/scaler_model"),
-            ProcessingOutput(output_name="train", source="/opt/ml/processing/train"),
-            ProcessingOutput(output_name="test", source="/opt/ml/processing/test"),
+            ProcessingOutput(output_name="scaler_model", source="/opt/ml/processing/scaler_model", destination=s3_scaler),
+            ProcessingOutput(output_name="train", source="/opt/ml/processing/train", destination=s3_train),
+            ProcessingOutput(output_name="test", source="/opt/ml/processing/test", destination=s3_test),
         ],
         code="steps/preprocess.py",
     )
