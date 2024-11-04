@@ -3,6 +3,7 @@ from sagemaker.workflow.parameters import ParameterInteger, ParameterString, Par
 from sagemaker.workflow.pipeline_context import PipelineSession, LocalPipelineSession
 import sagemaker
 import boto3
+import pandas as pd
 
 tensorflow_version = "2.4.1"
 sklearn_framework_version = "1.2-1"
