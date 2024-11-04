@@ -1,8 +1,10 @@
 import argparse
 import numpy as np
-import os
 import tensorflow as tf
 import pandas as pd
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirnmae(__file__), ".."))
 
 from etc import feature_columns, label_column
 
