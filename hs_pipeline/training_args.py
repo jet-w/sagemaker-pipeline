@@ -18,7 +18,7 @@ def get_sklean_training_args(pipeline_session, step_process):
         py_version       = python_version,
         sagemaker_session= pipeline_session,
     )
-    
+    print(step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri)
     model_s3 = os.path.dirname(step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri)
     model_s3 = f"{model_s3}/model"
 
