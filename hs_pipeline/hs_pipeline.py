@@ -61,7 +61,7 @@ def get_pipeline():
         right=accuracy_mse_threshold,
     )
 
-    step_register_pipeline_model = get_register_pipeline_model(step_evaluate_model, step_evaluate_model, step_train_model, role, pipeline_session, sklearn_framework_version, region, tensorflow_version, model_package_group_name, model_approval_status)
+    step_register_pipeline_model = get_register_pipeline_model(step_evaluate_model, step_evaluate_model, step_train_model)
     
     # Create a Sagemaker Pipelines ConditionStep, using the condition above.
     # Enter the steps to perform if the condition returns True / False.
