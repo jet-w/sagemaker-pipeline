@@ -29,7 +29,7 @@ def get_pipeline():
         name="HS-mlops-PreprocessData",
         step_args=get_process_args(
             pipeline_session
-        ),
+        )
     )
     
     step_train_model = TrainingStep(

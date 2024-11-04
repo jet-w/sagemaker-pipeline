@@ -15,7 +15,23 @@ try:
     )
 except ImportError:
     pass
-from etc import *
+
+#####################################################
+## Will be replaced using code in the future
+base_dir        = "/opt/ml/processing"
+base_output_dir = "/opt/ml/output/"
+
+feature_columns = [
+    "longitude",
+    "latitude",
+    "housingMedianAge",
+    "totalRooms",
+    "totalBedrooms",
+    "population",
+    "households",
+    "medianIncome",
+]
+label_column    = "medianHouseValue"
 
 if __name__ == "__main__":
     df = pd.read_csv(f"{base_dir}/input/raw_data_all.csv")

@@ -6,7 +6,18 @@ import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from etc import feature_columns, label_column
+#from etc import feature_columns, label_column
+feature_columns = [
+    "longitude",
+    "latitude",
+    "housingMedianAge",
+    "totalRooms",
+    "totalBedrooms",
+    "population",
+    "households",
+    "medianIncome",
+]
+label_column    = "medianHouseValue"
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -21,7 +32,8 @@ def parse_args():
     parser.add_argument("--test", type=str, default=os.environ.get("SM_CHANNEL_TEST"))
 
     # model directory
-    parser.add_argument("--sm-model-dir", type=str, default=os.environ.get("SM_MODEL_DIR"))
+    #parser.add_argument("--sm-model-dir", type=str, default=os.environ.get("SM_MODEL_DIR"))
+    parser.add_argument("--sm-model-dir", type=str, default=os.environ.get("SM_CHANNEL_MODEL"))
 
     return parser.parse_known_args()
 
