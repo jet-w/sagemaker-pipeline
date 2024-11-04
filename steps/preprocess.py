@@ -12,6 +12,7 @@ try:
     )
 except ImportError:
     pass
+from etc import *
 
 if __name__ == "__main__":
     df = pd.read_csv(f"{base_dir}/input/raw_data_all.csv")
