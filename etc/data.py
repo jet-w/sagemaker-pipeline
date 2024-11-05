@@ -20,8 +20,6 @@ prefix                   = "mas-pipeline-model-example"
 pipeline_name            = "mas-serial-inference-pipeline"  # SageMaker Pipeline name
 
 
-# Where to store the trained model
-model_path = f"s3://{bucket}/{prefix}/model/"
 
 raw_dir = os.path.join(os.getcwd(), "data", "raw")
 
