@@ -2,6 +2,7 @@
 from sagemaker.processing import ProcessingInput, ProcessingOutput
 from sagemaker.sklearn.processing import SKLearnProcessor
 from etc import input_data, role, processing_instance_count, bucket
+import logging
 
 def get_process_args(pipeline_session):
     sklearn_framework_version = "1.2-1"
@@ -12,11 +13,13 @@ def get_process_args(pipeline_session):
         base_job_name="sklearn-housing-data-process",
         role=role,
         sagemaker_session=pipeline_session,
+        #image_uri=
     )
-    
+
     s3_scaler = f"s3://{bucket}/humansystem/models/scaler"
     s3_train  = f"s3://{bucket}/humansystem/train/train"
     s3_test   = f"s3://{bucket}/humansystem/test/test"
+    
     #processor_args = sklearn_processor.run(
     return sklearn_processor.run(
         inputs=[
