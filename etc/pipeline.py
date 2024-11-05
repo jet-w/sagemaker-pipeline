@@ -2,8 +2,8 @@
 from sagemaker.workflow.parameters import ParameterInteger, ParameterString, ParameterFloat
 from sagemaker.workflow.pipeline_context import PipelineSession, LocalPipelineSession
 from .data import *
-#pipeline_session = PipelineSession()
-pipeline_session = LocalPipelineSession()
+pipeline_session = PipelineSession()
+#pipeline_session = LocalPipelineSession()
 
 # raw input data
 input_data               = ParameterString(name="InputData", default_value=raw_s3)
