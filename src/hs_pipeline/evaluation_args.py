@@ -35,7 +35,7 @@ def get_evaluation_args(pipeline_session, step_process, step_train_model):
         outputs=[
             ProcessingOutput(output_name="evaluation", source="/opt/ml/processing/evaluation"),
         ],
-        code="steps/evaluation/evaluation.py",
+        code="steps/evaluation/evaluation_svm.py",
     )
 
 
