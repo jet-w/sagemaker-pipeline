@@ -10,10 +10,10 @@ from sagemaker.workflow.conditions import ConditionLessThanOrEqualTo, ConditionG
 from sagemaker.workflow.condition_step import ConditionStep
 from sagemaker.workflow.functions import JsonGet
 
-from .process_args import get_process_args
-from .training_args import get_sklean_training_args
-from .evaluation_args import get_evaluation_args, get_svm_evaluation_args
-from .register import get_register_pipeline_model
+from ..steps.preprocess.process_args import get_process_args
+from ..steps.training.training_args import get_sklean_training_args
+from ..steps.evaluation.evaluation_args import get_evaluation_args, get_svm_evaluation_args
+from ..steps.register.register_args import get_register_pipeline_model
 
 from etc import *
 
@@ -40,13 +40,11 @@ def get_pipeline():
         )
     )
     
-    test=ParameterString(name="test", default_value="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/test")
-    model=ParameterString(name="model", default_value="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/pipelines-9nic0w5ptfsj-HS-mlops-TrainModel-9ZvMxL6UH9/output/")
     step_evaluate_model = ProcessingStep(
         name="HS-mlops-EvaluateModelPerformance",
         step_args=get_svm_evaluation_args(pipeline_session, step_process, step_train_model, 
-                                          s3_test_uri="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/test", 
-                                          s3_model_uri="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/pipelines-9nic0w5ptfsj-HS-mlops-TrainModel-9ZvMxL6UH9/output/"
+                                          #s3_test_uri="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/test", 
+                                          #s3_model_uri="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/pipelines-9nic0w5ptfsj-HS-mlops-TrainModel-9ZvMxL6UH9/output/"
                                         ),
         property_files=[evaluation_report],
     )
@@ -92,5 +90,5 @@ def get_pipeline():
         #steps=[step_process, step_train_model, step_evaluate_model, step_cond],
         #steps=[step_process, step_train_model, step_evaluate_model],
         #steps=[step_process, step_train_model],
-        steps=[step_evaluate_model]
+        steps=[step_evaluate_model, step_cond]
     )

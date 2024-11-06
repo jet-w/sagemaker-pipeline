@@ -16,36 +16,37 @@ def get_register_pipeline_model(
         step_train_model
     ):
     
-    scaler_model_s3 = "{}/model.tar.gz".format(
-        step_process.arguments["ProcessingOutputConfig"]["Outputs"][0]["S3Output"]["S3Uri"]
+    svm_model_s3 = "{}/model.tar.gz".format(
+        #step_process.arguments["ProcessingOutputConfig"]["Outputs"][0]["S3Output"]["S3Uri"]
+        "s3://shared-hs-mlops-bucket/humansystem/preprocess/output/pipelines-9nic0w5ptfsj-HS-mlops-TrainModel-9ZvMxL6UH9/output/"
     )
     
-    scaler_model = SKLearnModel(
-        model_data=scaler_model_s3,
+    svm_model = SKLearnModel(
+        model_data=svm_model_s3,
         role=role,
         sagemaker_session=pipeline_session,
         entry_point="steps/preprocess/preprocess.py",
         framework_version=sklearn_framework_version,
     )
     
-    tf_model_image_uri = sagemaker.image_uris.retrieve(
-        framework="tensorflow",
-        region=region,
-        version=tensorflow_version,
-        image_scope="inference",
-        py_version="py37",
-        instance_type="ml.m5.xlarge",
-    )
-    
-    tf_model = Model(
-        image_uri=tf_model_image_uri,
-        model_data=step_train_model.properties.ModelArtifacts.S3ModelArtifacts,
-        sagemaker_session=pipeline_session,
-        role=role,
-    )
+    #tf_model_image_uri = sagemaker.image_uris.retrieve(
+    #    framework="tensorflow",
+    #    region=region,
+    #    version=tensorflow_version,
+    #    image_scope="inference",
+    #    py_version="py37",
+    #    instance_type="ml.m5.xlarge",
+    #)
+    #
+    #tf_model = Model(
+    #    image_uri=tf_model_image_uri,
+    #    model_data=step_train_model.properties.ModelArtifacts.S3ModelArtifacts,
+    #    sagemaker_session=pipeline_session,
+    #    role=role,
+    #)
     
     pipeline_model = PipelineModel(
-        models=[scaler_model, tf_model], role=role, sagemaker_session=pipeline_session
+        models=[svm_model, tf_model], role=role, sagemaker_session=pipeline_session
     )
 
     evaluation_s3_uri = "{}/evaluation.json".format(
@@ -59,7 +60,8 @@ def get_register_pipeline_model(
         )
     )
     
-    register_args = pipeline_model.register(
+    #register_args = pipeline_model.register(
+    return pipeline_model.register(
         content_types=["text/csv"],
         response_types=["text/csv"],
         inference_instances=["ml.m5.large", "ml.m5.xlarge"],
@@ -70,7 +72,7 @@ def get_register_pipeline_model(
     )
     
     #step_register_pipeline_model = ModelStep(
-    return ModelStep(
-        name="PipelineModel",
-        step_args=register_args,
-    )
+    #return ModelStep(
+    #    name="PipelineModel",
+    #    step_args=register_args,
+    #)
