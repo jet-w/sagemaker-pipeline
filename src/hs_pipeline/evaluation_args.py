@@ -68,7 +68,7 @@ def get_svm_evaluation_args(pipeline_session, step_process, step_train_model):
         framework_version="0.23-1",
         instance_type="ml.m5.large",
         instance_count=1,
-        #role=role,
+        role=role,
         sagemaker_session=pipeline_session,
     )
     
