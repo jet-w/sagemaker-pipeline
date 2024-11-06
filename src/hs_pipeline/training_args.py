@@ -43,7 +43,7 @@ def get_sklean_training_args(pipeline_session, step_process):
         role             = role,
         sagemaker_session=pipeline_session,
         hyperparameters  = hyperparameters,
-        py_version       = python_version,
+        py_version       = "py3",
         keep_alive_period_in_seconds=3600,
         output_path      = s3_model_output
     )
