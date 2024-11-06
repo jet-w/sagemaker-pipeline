@@ -47,7 +47,7 @@ def get_model(model_dir):
     
     model_files = []
     for p, _, files in os.walk(model_dir):
-        svm_modles = filter(lambda x: x == "svm_model.joblib", files)
+        svm_modles = filter(lambda x: x.lower().endswith(".joblib"), files)
         model_files.extend([os.path.join(p, svm) for svm in svm_modles])
     
     model_path = model_files[0]
