@@ -24,7 +24,7 @@ def get_register_pipeline_model(
         model_data=scaler_model_s3,
         role=role,
         sagemaker_session=pipeline_session,
-        entry_point="steps/preprocess.py",
+        entry_point="steps/preprocess/preprocess.py",
         framework_version=sklearn_framework_version,
     )
     
