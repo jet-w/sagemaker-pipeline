@@ -85,6 +85,6 @@ def get_pipeline():
             training_epochs,
             accuracy_mse_threshold,
         ],
-        steps=[step_process, step_train_model, step_evaluate_model, step_cond],
-        #steps=[step_process, step_train_model, step_evaluate_model],
+        #steps=[step_process, step_train_model, step_evaluate_model, step_cond],
+        steps=[step_process, step_train_model, step_evaluate_model],
     )
