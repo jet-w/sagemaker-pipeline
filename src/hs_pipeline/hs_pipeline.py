@@ -12,7 +12,7 @@ from sagemaker.workflow.functions import JsonGet
 
 from .process_args import get_process_args
 from .training_args import get_sklean_training_args
-from .evaluation_args import get_evaluation_args
+from .evaluation_args import get_evaluation_args, get_svm_evaluation_args
 from .register import get_register_pipeline_model
 
 from etc import *
@@ -40,12 +40,18 @@ def get_pipeline():
         )
     )
     
+    #step_evaluate_model = ProcessingStep(
+    #    name="HS-mlops-EvaluateModelPerformance",
+    #    step_args=get_evaluation_args(pipeline_session, step_process, step_train_model),
+    #    property_files=[evaluation_report],
+    #)
     step_evaluate_model = ProcessingStep(
         name="HS-mlops-EvaluateModelPerformance",
-        step_args=get_evaluation_args(pipeline_session, step_process, step_train_model),
+        step_args=get_svm_evaluation_args(pipeline_session, step_process, step_train_model, 
+                                          s3_test_uri="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/test", 
+                                          s3_model_uri="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/pipelines-9nic0w5ptfsj-HS-mlops-TrainModel-9ZvMxL6UH9/output/"),
         property_files=[evaluation_report],
     )
-    
     
     # Create accuracy condition to ensure the model meets performance requirements.
     # Models with a test accuracy lower than the condition will not be registered with the model registry.
@@ -87,5 +93,6 @@ def get_pipeline():
         ],
         #steps=[step_process, step_train_model, step_evaluate_model, step_cond],
         #steps=[step_process, step_train_model, step_evaluate_model],
-        steps=[step_process, step_train_model],
+        #steps=[step_process, step_train_model],
+        steps=[step_evaluate_model]
     )
