@@ -8,7 +8,8 @@ def get_execution_role():
 
 sess              = boto3.Session()
 sm                = sess.client("sagemaker")
-role              = sagemaker.get_execution_role() # get_execution_role()
+#role              = sagemaker.get_execution_role() # get_execution_role()
+role              = get_execution_role()
 role_arn          = f"arn:aws:iam::654654179472:role/service-role/{role}"
 
 sagemaker_session = sagemaker.Session(boto_session=sess)
