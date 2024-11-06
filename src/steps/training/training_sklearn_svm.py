@@ -16,6 +16,7 @@ def parse_args():
     parser.add_argument('--C', type=float, default=1.0, help='Regularisation parameter')
     parser.add_argument('--kernel', type=str, default='linear', help='Kernel type for SVM')
     parser.add_argument('--probability', type=bool, default=True, help='Enable probability estimates')
+    parser.add_argument('--epochs', type=int, default=0, help='Enable probability estimates')
 
     # SageMaker specific arguments. Defaults are set in the environment variables.
     parser.add_argument('--output-data-dir', type=str, default=os.environ['SM_OUTPUT_DATA_DIR'])
