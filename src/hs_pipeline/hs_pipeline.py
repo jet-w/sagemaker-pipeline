@@ -45,11 +45,13 @@ def get_pipeline():
     #    step_args=get_evaluation_args(pipeline_session, step_process, step_train_model),
     #    property_files=[evaluation_report],
     #)
+    test=ParameterString(name="test", default_value="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/test")
+    model=ParameterString(name="model", default_value="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/pipelines-9nic0w5ptfsj-HS-mlops-TrainModel-9ZvMxL6UH9/output/")
     step_evaluate_model = ProcessingStep(
         name="HS-mlops-EvaluateModelPerformance",
         step_args=get_svm_evaluation_args(pipeline_session, step_process, step_train_model, 
-                                          s3_test_uri="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/test", 
-                                          s3_model_uri="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/pipelines-9nic0w5ptfsj-HS-mlops-TrainModel-9ZvMxL6UH9/output/"),
+                                          s3_test_uri=test, 
+                                          s3_model_uri=model),
         property_files=[evaluation_report],
     )
     
