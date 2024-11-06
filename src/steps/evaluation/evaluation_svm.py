@@ -40,6 +40,7 @@ def get_data(data_dir):
 def get_model(model_dir):
     models = []
     for p, _, files in os.walk(model_dir):
+        print(files)
         models.extend(list(map(lambda model: os.path.join(p, model), filter(lambda x: x=="model.tar.gz", files))))
 
     with tarfile.open(models[0], "r:gz") as tar:
