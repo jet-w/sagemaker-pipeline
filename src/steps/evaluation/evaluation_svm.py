@@ -43,11 +43,13 @@ def get_model(model_dir):
         print(files)
         models.extend(list(map(lambda model: os.path.join(p, model), filter(lambda x: x=="model.tar.gz", files))))
 
+    print(models)
     with tarfile.open(models[0], "r:gz") as tar:
         tar.extractall("./model")
     
     model_files = []
     for p, _, files in os.walk(model_dir):
+        print(files)
         svm_modles = filter(lambda x: x.lower().endswith(".joblib"), files)
         model_files.extend([os.path.join(p, svm) for svm in svm_modles])
     
