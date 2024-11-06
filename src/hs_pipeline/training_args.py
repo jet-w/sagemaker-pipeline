@@ -1,12 +1,14 @@
 from sagemaker.tensorflow import TensorFlow
-from sagemaker.inputs import TrainingInput
 from sagemaker.pytorch import PyTorch
+from sagemaker.sklearn import SKLearn
+
+from sagemaker.inputs import TrainingInput
 import os
 from etc import *
 
-def get_sklean_training_args(pipeline_session, step_process):
+def get_tensorflow_training_args(pipeline_session, step_process):
     tf2_estimator = TensorFlow(
-        source_dir       = "steps",
+        source_dir       = "steps/training",
         entry_point      = "training_sklearn_sample.py",
         instance_type    = training_instance_type,
         instance_count   = 1,
@@ -18,15 +20,7 @@ def get_sklean_training_args(pipeline_session, step_process):
         py_version       = python_version,
         sagemaker_session= pipeline_session,
     )
-    
-    #print(step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri.to_string())
 
-    #model_s3 = os.path.dirname(str(step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri))
-    #model_s3 = f"{model_s3}/model"
-    model_s3 = f"s3://{bucket}/model"
-
-    # NOTE how the input to the training job directly references the output of the previous step.
-    #train_args = tf2_estimator.fit(
     return tf2_estimator.fit(
         inputs={
             "train": TrainingInput(
@@ -40,6 +34,31 @@ def get_sklean_training_args(pipeline_session, step_process):
         }
     )
 
+def get_sklean_training_args(pipeline_session, step_process):
+    sklearn_estimator = SKLearn(
+        source_dir       = "steps/training",
+        entry_point      = "training_sklearn_svm.py",
+        framework_version= "1.2-1",
+        instance_type    = training_instance_type,
+        role             = role,
+        sagemaker_session=pipeline_session,
+        hyperparameters  = hyperparameters,
+        py_version       = python_version,
+        keep_alive_period_in_seconds=3600,
+        output_path      = s3_model_output
+    )
+    return sklearn_estimator.fit(
+        inputs={
+            "train": TrainingInput(
+                s3_data=step_process.properties.ProcessingOutputConfig.Outputs["train"].S3Output.S3Uri,
+                content_type="text/csv",
+            ),
+            "test": TrainingInput(
+                s3_data=step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri,
+                content_type="text/csv",
+            )
+        }
+    )
 
 def get_pytorch_rnn_training_args(pipeline_session, step_process):
     # Configure the training job
