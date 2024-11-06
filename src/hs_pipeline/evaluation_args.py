@@ -58,8 +58,8 @@ def get_svm_evaluation_args(pipeline_session, step_process, step_train_model, s3
         instance_type=processing_instance_type,
         sagemaker_session=pipeline_session,
     )
-    s3_test_uri = step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri if s3_test_uri is not None else s3_test_uri
-    s3_model_uri = step_train_model.properties.ModelArtifacts.S3ModelArtifacts if s3_model_uri is not None else s3_model_uri
+    s3_test_uri = step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri if s3_test_uri is None else s3_test_uri
+    s3_model_uri = step_train_model.properties.ModelArtifacts.S3ModelArtifacts if s3_model_uri is None else s3_model_uri
 
     return evaluate_model_processor.run(
         inputs=[
