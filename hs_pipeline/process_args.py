@@ -13,7 +13,7 @@ def get_process_args(pipeline_session):
         base_job_name="sklearn-housing-data-process",
         role=role,
         sagemaker_session=pipeline_session,
-        #image_uri=
+        #image_uri=""
     )
 
     s3_scaler = f"s3://{bucket}/humansystem/models/scaler"
