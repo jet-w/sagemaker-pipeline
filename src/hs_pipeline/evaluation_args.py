@@ -43,8 +43,8 @@ def get_evaluation_args(pipeline_session, step_process, step_train_model):
 
 
 def get_svm_evaluation_args(pipeline_session, step_process, step_train_model, s3_test_uri=None, s3_model_uri=None):
-    s3_test_uri = step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri# if s3_test_uri is None else s3_test_uri 
-    s3_model_uri = step_train_model.properties.ModelArtifacts.S3ModelArtifacts #if s3_model_uri else s3_model_uri
+    s3_test_uri = step_process.properties.ProcessingOutputConfig.Outputs["test"].S3Output.S3Uri if s3_test_uri is None else s3_test_uri 
+    s3_model_uri = step_train_model.properties.ModelArtifacts.S3ModelArtifacts if s3_model_uri else s3_model_uri
 
     # Define the SKLearnProcessor for evaluation
     sklearn_processor = SKLearnProcessor(

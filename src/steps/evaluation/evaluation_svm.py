@@ -48,7 +48,7 @@ def get_model(model_dir):
         tar.extractall("./model")
     
     model_files = []
-    for p, _, files in os.walk(model_dir):
+    for p, _, files in os.walk("./model"):
         print(files)
         svm_modles = filter(lambda x: x.lower().endswith(".joblib"), files)
         model_files.extend([os.path.join(p, svm) for svm in svm_modles])
