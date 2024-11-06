@@ -15,6 +15,7 @@ label_column    = ["Peer-Work", "Reflection", "Additional-Resources", "Reminders
 
 def binary_to_integer(df):
     #encode_binary to integer
+    ret = None
     for i in df.columns:
         ret = df[i].astype(str) if ret is None else ret + df[i].astype(str)
     return list(map(lambda x: int(x, 2), ret))
@@ -40,16 +41,13 @@ def get_data(data_dir):
 def get_model(model_dir):
     models = []
     for p, _, files in os.walk(model_dir):
-        print(files)
         models.extend(list(map(lambda model: os.path.join(p, model), filter(lambda x: x=="model.tar.gz", files))))
 
-    print(models)
     with tarfile.open(models[0], "r:gz") as tar:
         tar.extractall("./model")
     
     model_files = []
     for p, _, files in os.walk("./model"):
-        print(files)
         svm_modles = filter(lambda x: x.lower().endswith(".joblib"), files)
         model_files.extend([os.path.join(p, svm) for svm in svm_modles])
     
