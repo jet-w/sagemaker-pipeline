@@ -27,6 +27,7 @@ def parse_args():
 
 def binary_to_integer(df):
     #encode_binary to integer
+    ret = None
     for i in df.columns:
         ret = df[i].astype(str) if ret is None else ret + df[i].astype(str)
     
