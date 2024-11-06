@@ -1,13 +1,13 @@
 
-from __future__ import print_function
+#from __future__ import print_function
 
 import argparse
 import joblib
 import os
 import pandas as pd
 from sklearn.svm import SVC
-import mlflow
-from sklearn.model_selection import train_test_split
+#import mlflow
+#from sklearn.model_selection import train_test_split
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -61,10 +61,10 @@ def train(args, train_x, train_y):
     model_path = args.model_dir
 
     # Create and train the SVM model
-    with mlflow.start_run():
-        clf = SVC(C=C, kernel=kernel, probability=probability, random_state=42)
-        clf.fit(train_x, train_y)
-        joblib.dump(clf, os.path.join(model_path, 'svm_model.joblib'))
+    #with mlflow.start_run():
+    clf = SVC(C=C, kernel=kernel, probability=probability, random_state=42)
+    clf.fit(train_x, train_y)
+    joblib.dump(clf, os.path.join(model_path, 'svm_model.joblib'))
 
 if __name__ == '__main__':
     args = parse_args()
