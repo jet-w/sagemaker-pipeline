@@ -13,33 +13,38 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 label_column    = ["Peer-Work", "Reflection", "Additional-Resources", "Reminders"]
 
-def get_data(args):
+def binary_to_integer(df):
+    #encode_binary to integer
+    for i in df.columns:
+        ret = df[i].astype(str) if ret is None else ret + df[i].astype(str)
+    return list(map(lambda x: int(x, 2), ret))
+
+def integer_to_binary(num: int):
+    return bin(num)[2:]
+
+def get_data(data_dir):
     df_array = []
-    for p, _, files in os.walk("data"):
+    for p, _, files in os.walk(data_dir):
         df_array.extend([pd.read_csv(os.path.join(p, file)) for file in files])
     if len(df_array) == 0:
         raise ValueError(('There are no files in {}.\n' +
                           'This usually indicates that the channel ({}) was incorrectly specified,\n' +
                           'the data specification in S3 was incorrectly specified or the role specified\n' +
                           'does not have permission to access the data.').format(args.train, "train"))
-    train_data = pd.concat(df_array)
+    data = pd.concat(df_array)
 
-    train_x = train_data.iloc[:, :11] # Indicators
-    train_y = train_data.iloc[:, 11:] # Interventions
-    ret = None
+    x = data.iloc[:, :11]                    # Indicators
+    y = binary_to_integer(data.iloc[:, 11:]) # Interventions
+    return x, y
 
-    #encode_binary to integer
-    for i in train_y.columns:
-        ret = train_y[i].astype(str) if ret is None else ret + train_y[i].astype(str)
+def get_model(model_dir):
+    models = []
+    for p, _, files in os.walk(model_dir):
+        models.extend(list(map(lambda model: os.path.join(p, model), filter(lambda x: x=="model.tar.gz", files))))
+
+    with tarfile.open(models[0], "r:gz") as tar:
+        tar.extractall("./model")
     
-    train_y = list(map(lambda x: int(x, 2), ret))
-    return train_x, train_y
-
-if __name__ == "__main__":
-    model_dir     = f"/opt/ml/processing/model/"
-    test_data_dir = f"/opt/ml/processing/test/"
-    output_dir    = f"/opt/ml/processing/evaluation"
-
     model_files = []
     for p, _, files in os.walk(model_dir):
         svm_modles = filter(lambda x: x == "svm_model.joblib", files)
@@ -47,11 +52,19 @@ if __name__ == "__main__":
     
     model_path = model_files[0]
     
-    model = joblib.load(model_path)
+    return joblib.load(model_path)    
 
+if __name__ == "__main__":
+    model_dir     = f"/opt/ml/processing/model/"
+    test_data_dir = f"/opt/ml/processing/test/"
+    output_dir    = f"/opt/ml/processing/evaluation"
+
+    model = get_model(model_dir)
+    x, y = get_data(test_data_dir)
     
-
-    accuracy = accuracy_score(y_test, y_pred)
+    
+    y_pred = model.predict(x)
+    accuracy = accuracy_score(y, y_pred)
     
     # Available metrics to add to model: https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-model-quality-metrics.html
     report_dict = {

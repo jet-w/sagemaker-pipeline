@@ -24,6 +24,13 @@ def parse_args():
 
     return parser.parse_args()
 
+def binary_to_integer(df):
+    #encode_binary to integer
+    for i in df.columns:
+        ret = df[i].astype(str) if ret is None else ret + df[i].astype(str)
+    
+    return list(map(lambda x: int(x, 2), ret))
+
 def get_data(args):
     df_array = []
     for p, _, files in os.walk(args.train):
@@ -37,14 +44,8 @@ def get_data(args):
     train_data = pd.concat(df_array)
 
     train_x = train_data.iloc[:, :11] # Indicators
-    train_y = train_data.iloc[:, 11:] # Interventions
-    ret = None
-
-    #encode_binary to integer
-    for i in train_y.columns:
-        ret = train_y[i].astype(str) if ret is None else ret + train_y[i].astype(str)
+    train_y = binary_to_integer(train_data.iloc[:, 11:]) # Interventions
     
-    train_y = list(map(lambda x: int(x, 2), ret))
     return train_x, train_y
 
 def train(args, train_x, train_y):
