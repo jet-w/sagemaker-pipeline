@@ -50,8 +50,9 @@ def get_pipeline():
     step_evaluate_model = ProcessingStep(
         name="HS-mlops-EvaluateModelPerformance",
         step_args=get_svm_evaluation_args(pipeline_session, step_process, step_train_model, 
-                                          s3_test_uri=test, 
-                                          s3_model_uri=model),
+                                          #s3_test_uri=test, 
+                                          #s3_model_uri=model
+                                        ),
         property_files=[evaluation_report],
     )
     
