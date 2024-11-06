@@ -41,7 +41,10 @@ def get_data(args):
                           'This usually indicates that the channel ({}) was incorrectly specified,\n' +
                           'the data specification in S3 was incorrectly specified or the role specified\n' +
                           'does not have permission to access the data.').format(args.train, "train"))
-    train_data = pd.concat(df_array)
+    elif len(df_array) == 1:
+        train_data = df_array[0]
+    else:
+        train_data = pd.concat(df_array)
 
     train_x = train_data.iloc[:, :11] # Indicators
     train_y = binary_to_integer(train_data.iloc[:, 11:]) # Interventions
