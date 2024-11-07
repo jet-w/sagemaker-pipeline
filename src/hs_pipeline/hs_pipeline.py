@@ -13,7 +13,7 @@ from sagemaker.workflow.functions import JsonGet
 from steps.preprocess.process_args import get_process_args
 from steps.training.training_args import get_sklean_training_args
 from steps.evaluation.evaluation_args import get_evaluation_args, get_svm_evaluation_args
-from steps.register.register_args import get_register_pipeline_model
+from steps.register.register_args import get_register_args
 
 from etc import *
 
@@ -60,14 +60,19 @@ def get_pipeline():
         right=accuracy_mse_threshold,
     )
 
-    step_register_pipeline_model = get_register_pipeline_model(step_evaluate_model, step_evaluate_model, step_train_model)
+    register_step = ModelStep(
+        name="PipelineModel",
+        step_args=get_register_args(),
+    )
+    
+    #step_register_pipeline_model = get_register_pipeline_model(step_evaluate_model, step_evaluate_model, step_train_model)
     
     # Create a Sagemaker Pipelines ConditionStep, using the condition above.
     # Enter the steps to perform if the condition returns True / False.
     step_cond = ConditionStep(
         name="HS-mlops-MSE-Lower-Than-Threshold-Condition",
         conditions=[cond_lte],
-        if_steps=[step_register_pipeline_model],  # step_register_model, step_register_scaler,
+        if_steps=[register_step],  # step_register_model, step_register_scaler,
         else_steps=[],
     )
     

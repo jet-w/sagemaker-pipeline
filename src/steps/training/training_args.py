@@ -45,17 +45,8 @@ def get_sklean_training_args(pipeline_session, step_process):
         hyperparameters  = hyperparameters,
         py_version       = "py3",
         keep_alive_period_in_seconds=3600,
-        output_path      = "s3://test/output"#s3_model_output
+        output_path      = s3_model_output
     )
-
-    sk_model = sklearn_estimator.create_model()
-
-    print(sk_model.model_data)
-    print(sk_model.role)
-    print(sk_model.sagemaker_session)
-    print(sk_model.entry_point)
-    print(sk_model.framework_version)
-    
     return sklearn_estimator.fit(
         inputs={
             "train": TrainingInput(

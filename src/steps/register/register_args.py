@@ -25,28 +25,12 @@ def get_register_pipeline_model(
         model_data=svm_model_s3,
         role=role,
         sagemaker_session=pipeline_session,
-        entry_point="steps/preprocess/preprocess.py",
+        entry_point="steps/register/svm_process.py",
         framework_version=sklearn_framework_version,
     )
     
-    #tf_model_image_uri = sagemaker.image_uris.retrieve(
-    #    framework="tensorflow",
-    #    region=region,
-    #    version=tensorflow_version,
-    #    image_scope="inference",
-    #    py_version="py37",
-    #    instance_type="ml.m5.xlarge",
-    #)
-    #
-    #tf_model = Model(
-    #    image_uri=tf_model_image_uri,
-    #    model_data=step_train_model.properties.ModelArtifacts.S3ModelArtifacts,
-    #    sagemaker_session=pipeline_session,
-    #    role=role,
-    #)
-    
     pipeline_model = PipelineModel(
-        models=[svm_model, tf_model], role=role, sagemaker_session=pipeline_session
+        models=[svm_model], role=role, sagemaker_session=pipeline_session
     )
 
     evaluation_s3_uri = "{}/evaluation.json".format(
@@ -63,16 +47,10 @@ def get_register_pipeline_model(
     #register_args = pipeline_model.register(
     return pipeline_model.register(
         content_types=["text/csv"],
-        response_types=["text/csv"],
-        inference_instances=["ml.m5.large", "ml.m5.xlarge"],
+        response_types=["application/json"],
+        inference_instances=["ml.m5.large"],
         transform_instances=["ml.m5.xlarge"],
         model_package_group_name=model_package_group_name,
         model_metrics=model_metrics,
         approval_status=model_approval_status,
     )
-    
-    #step_register_pipeline_model = ModelStep(
-    #return ModelStep(
-    #    name="PipelineModel",
-    #    step_args=register_args,
-    #)
