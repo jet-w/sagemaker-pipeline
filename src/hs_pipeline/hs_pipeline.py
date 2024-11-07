@@ -62,9 +62,9 @@ def get_pipeline():
 
     register_step = ModelStep(
         name="PipelineModel",
-        step_args=get_register_args(),
+        step_args=get_register_args(step_evaluate_model, step_train_model),
     )
-    
+
     #step_register_pipeline_model = get_register_pipeline_model(step_evaluate_model, step_evaluate_model, step_train_model)
     
     # Create a Sagemaker Pipelines ConditionStep, using the condition above.

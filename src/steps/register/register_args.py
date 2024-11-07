@@ -11,7 +11,6 @@ import sagemaker
 from etc import *
 
 def get_register_args(
-        step_process, 
         step_evaluate_model, 
         step_train_model
     ):
