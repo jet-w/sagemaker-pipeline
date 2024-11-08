@@ -1,6 +1,7 @@
 import os
 import pandas as pd
-import StringIO
+#import StringIO
+from io import StringIO
 import tarfile
 import joblib
 from etc import label_column
