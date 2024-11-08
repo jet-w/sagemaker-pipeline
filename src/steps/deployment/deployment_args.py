@@ -1,6 +1,4 @@
-from sagemaker.workflow.steps import ModelStep
 from sagemaker.model import Model
-from sagemaker.workflow.pipeline import Pipeline
 from etc import *
 # Assuming previous steps like train_step and register_step are already defined
 
