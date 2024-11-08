@@ -1,16 +1,26 @@
 import argparse
 import boto3
 import logging
-import sagemaker
+import os
 from botocore.exceptions import ClientError
-import time
+import tarfile
+import zipfile
 
 from sagemaker import ModelPackage
 
 logger = logging.getLogger(__name__)
 sm_client = boto3.client("sagemaker")
 
+
 def get_approved_package(model_package_group_name):
+    """Gets the latest approved model package for a model package group.
+
+    Args:
+        model_package_group_name: The model package group name.
+
+    Returns:
+        The SageMaker Model Package ARN.
+    """
     try:
         # Get the latest approved model package
         response = sm_client.list_model_packages(
@@ -52,29 +62,22 @@ def get_approved_package(model_package_group_name):
         raise Exception(error_message)
 
 
-model_package_group_name = "HumanSystemsAIOpsModelPackageGroup"
-role = "SageMaker-ExecutionRole-20241030T121452"
+
 
 if __name__ == "__main__":
-    sess = boto3.Session()
-    sm_client = sess.client("sagemaker")
-    #sm = sess.client("sagemaker")
-    sagemaker_session = sagemaker.Session(boto_session=sess)
-
+    sm_client = boto3.client("sagemaker")
+    
     pck = get_approved_package(
         model_package_group_name
-    )  
-    # Reminder: model_package_group_name was defined as "NominetAbaloneModelPackageGroupName" at the beginning of the pipeline definition
+    )  # Reminder: model_package_group_name was defined as "NominetAbaloneModelPackageGroupName" at the beginning of the pipeline definition
     model_description = sm_client.describe_model_package(ModelPackageName=pck["ModelPackageArn"])
+    
+
     model_package_arn = model_description["ModelPackageArn"]
     model = ModelPackage(
         role=role, model_package_arn=model_package_arn, sagemaker_session=sagemaker_session
     )
     
-    endpoint_name = "HS-endpoint-" + time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
+    endpoint_name = "DEMO-endpoint-" + time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
     print("EndpointName= {}".format(endpoint_name))
-    model.deploy(
-        initial_instance_count=1, 
-        instance_type="ml.m5.xlarge", 
-        endpoint_name=endpoint_name
-    )
+    model.deploy(initial_instance_count=1, instance_type="ml.m5.xlarge", endpoint_name=endpoint_name)
