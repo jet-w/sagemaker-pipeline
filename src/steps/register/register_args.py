@@ -14,15 +14,11 @@ def get_register_args(
         step_evaluate_model, 
         step_train_model
     ):
-    #print("*"*100)
-    #print(step_train_model.properties.ModelArtifacts.S3ModelArtifacts.to_string())
-    #print(step_train_model.properties.ModelArtifacts.S3ModelArtifacts.expr)
-    #step_train_model.properties.ModelArtifacts.S3ModelArtifacts 
-    #print("#"*100)
     #svm_model_s3 = "{}/model.tar.gz".format(
-    #    #step_process.arguments["ProcessingOutputConfig"]["Outputs"][0]["S3Output"]["S3Uri"]
-    #    step_train_model.properties.ModelArtifacts.S3ModelArtifacts
     #    #"s3://shared-hs-mlops-bucket/humansystem/preprocess/output/pipelines-9nic0w5ptfsj-HS-mlops-TrainModel-9ZvMxL6UH9/output"
+    #)
+    #evaluation_s3_uri = "{}/evaluation.json".format(
+    #    #"s3://sagemaker-us-east-1-654654179472/sagemaker-scikit-learn-2024-11-06-23-13-40-345/output/evaluation"
     #)
     
     svm_model = SKLearnModel(
@@ -36,20 +32,14 @@ def get_register_args(
     pipeline_model = PipelineModel(
         models=[svm_model], role=role, sagemaker_session=pipeline_session
     )
-
-    #evaluation_s3_uri = "{}/evaluation.json".format(
-    #    step_evaluate_model.arguments["ProcessingOutputConfig"]["Outputs"][0]["S3Output"]["S3Uri"]
-    #    #"s3://sagemaker-us-east-1-654654179472/sagemaker-scikit-learn-2024-11-06-23-13-40-345/output/evaluation"
-    #)
-    #
+    
     model_metrics = ModelMetrics(
         model_statistics=MetricsSource(
             s3_uri=step_evaluate_model.properties.ProcessingOutputConfig.Outputs['evaluation'].S3Output.S3Uri,
             content_type="application/json",
         )
     )
-    
-    #register_args = pipeline_model.register(
+
     return pipeline_model.register(
         content_types=["text/csv"],
         response_types=["application/json"],
