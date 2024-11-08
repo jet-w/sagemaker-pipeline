@@ -71,11 +71,11 @@ def get_pipeline():
         step_args=get_register_args(step_evaluate_model, step_train_model),
     )
 
-    # 3. Define the deployment step
-    deployment_step = ModelStep(
-        name="DeploySVCModel",
-        step_args=deploy_registered_model(pipeline_session, register_step, estimator)
-    )
+    ## 3. Define the deployment step
+    #deployment_step = ModelStep(
+    #    name="DeploySVCModel",
+    #    step_args=deploy_registered_model(pipeline_session, register_step, estimator)
+    #)
 
     #step_register_pipeline_model = get_register_pipeline_model(step_evaluate_model, step_evaluate_model, step_train_model)
     
