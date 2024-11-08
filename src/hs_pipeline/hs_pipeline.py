@@ -80,16 +80,16 @@ def get_step_deployment(session, step_register):
         sagemaker_session=session
     )
     
-    endpoint_name = "HS-endpoint-" + time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
-    print("EndpointName= {}".format(endpoint_name))
-    model.deploy(initial_instance_count=1, instance_type="ml.m5.xlarge", endpoint_name=endpoint_name)
+    #endpoint_name = "HS-endpoint-" + time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
+    #print("EndpointName= {}".format(endpoint_name))
+    #model.deploy(initial_instance_count=1, instance_type="ml.m5.xlarge", endpoint_name=endpoint_name)
     # Define the deployment step
     return ModelStep(
         name="DeployRegisteredModel",
         step_args=model.deploy(
             initial_instance_count=1,
             instance_type="ml.m5.large",
-            endpoint_name="RegisteredModelEndpoint"  # Specify a unique endpoint name
+            endpoint_name="HS-RegisteredModelEndpoint"  # Specify a unique endpoint name
         )
     )
 
