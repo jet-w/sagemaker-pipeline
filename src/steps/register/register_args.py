@@ -42,12 +42,12 @@ def get_register_args(
     #    #"s3://sagemaker-us-east-1-654654179472/sagemaker-scikit-learn-2024-11-06-23-13-40-345/output/evaluation"
     #)
     #
-    #model_metrics = ModelMetrics(
-    #    model_statistics=MetricsSource(
-    #        s3_uri=evaluation_s3_uri,
-    #        content_type="application/json",
-    #    )
-    #)
+    model_metrics = ModelMetrics(
+        model_statistics=MetricsSource(
+            s3_uri=step_evaluate_model.properties.ProcessingOutputConfig.Outputs['evaluation'].S3Output.S3Uri,
+            content_type="application/json",
+        )
+    )
     
     #register_args = pipeline_model.register(
     return pipeline_model.register(
@@ -56,6 +56,6 @@ def get_register_args(
         inference_instances=["ml.m5.large"],
         transform_instances=["ml.m5.xlarge"],
         model_package_group_name=model_package_group_name,
-        #model_metrics=model_metrics,
+        model_metrics=model_metrics,
         approval_status=model_approval_status,
     )
