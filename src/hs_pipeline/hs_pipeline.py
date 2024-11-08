@@ -103,9 +103,9 @@ def get_pipeline():
     step_process = get_step_preprocess(pipeline_session)
     step_train_model, estimator = get_step_training(pipeline_session, step_process)
     step_evaluate_model = get_step_evaluation(pipeline_session, step_process, step_train_model, evaluation_report)
-    register_step =get_step_register(pipeline_session, step_evaluate_model, step_train_model)
+    step_register =get_step_register(pipeline_session, step_evaluate_model, step_train_model)
     #step_deployment = get_step_deployment(pipeline_session, estimator, step_train_model)
-    step_conditional = get_step_conditional(step_evaluate_model.name, evaluation_report, register_step)
+    step_conditional = get_step_conditional(step_evaluate_model.name, evaluation_report, step_register)
 
     # Create a Sagemaker Pipeline.
     # Each parameter for the pipeline must be set as a parameter explicitly when the pipeline is created.
@@ -124,7 +124,7 @@ def get_pipeline():
             accuracy_mse_threshold,
         ],
         #steps=[step_process, step_train_model, step_evaluate_model, step_cond],
-        steps=[step_process, step_train_model, step_evaluate_model, get_step_register],
+        steps=[step_process, step_train_model, step_evaluate_model, step_register],
         #steps=[step_process, step_train_model, step_evaluate_model, step_cond]
         #steps=[step_process, step_train_model],
         #steps=[step_evaluate_model, step_cond]
