@@ -74,7 +74,7 @@ def get_step_deployment1(session, sklearn_estimator, step_train_model):
 
 import time
 def get_step_deployment(session, step_register):
-    print(step_register.properties.ModelPackageArn,)
+    print(step_register.properties.ModelPackageArn.to_string(),)
     model = ModelPackage(
         role=role, 
         model_package_arn=step_register.properties.ModelPackageArn, 
