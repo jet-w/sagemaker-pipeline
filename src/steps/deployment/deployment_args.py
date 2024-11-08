@@ -7,7 +7,7 @@ def deploy_registered_model(pipeline_session, register_step, sklearn_estimator):
     # Assuming register_step is your RegisterModel step
     model_package_arn = register_step.properties.ModelPackageArn
     print("*"*100)
-    print(model_package_arn.expr())
+    print(model_package_arn.expr)
     print("#"*100)
     # 2. Define the Model object for the endpoint
     model = Model(
