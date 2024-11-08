@@ -19,6 +19,8 @@ from steps.preprocess.process_args import get_process_args
 from steps.training.training_args import get_sklean_training_args
 from steps.evaluation.evaluation_args import get_evaluation_args, get_svm_evaluation_args
 from steps.register.register_args import get_register_args
+
+from sagemaker.workflow.functions import Join
 #from steps.deployment.deployment_args import get_deployment_args
 from etc import *
 
@@ -73,7 +75,7 @@ def get_step_deployment1(session, sklearn_estimator, step_train_model):
     )
 
 import time
-def get_step_deployment(session, step_register):
+def get_step_deployment2(session, step_register):
     print(step_register.properties.ModelPackageArn.expr)
     model = ModelPackage(
         role=role, 
@@ -105,7 +107,64 @@ def get_step_deployment(session, step_register):
     )
 
 
-
+def get_step_deployment(session, step_register):
+    """
+    Creates a deployment step for a registered model in SageMaker pipeline.
+    
+    Args:
+        session: SageMaker pipeline session
+        step_register: RegisterModel step output
+    """
+    # Create a unique endpoint name parameter
+    endpoint_name = ParameterString(
+        name="EndpointName",
+        default_value="hs-endpoint"
+    )
+    
+    # Create model from the registered model package
+    model = Model(
+        image_uri=step_register.properties.ModelPackageContainerDefinition.Image,
+        model_data=step_register.properties.ModelPackageArn,
+        role=role,
+        sagemaker_session=session,
+        predictor_cls=None  # Set to your predictor class if needed
+    )
+    
+    # Create model step with proper configuration
+    #model_step = ModelStep(
+    #    name="DeployRegisteredModel",
+    #    step_args=model.create(
+    #        instance_type="ml.m5.large",
+    #        accelerator_type=None,
+    #        endpoint_name=endpoint_name
+    #    )
+    #)
+    
+    # Create the endpoint configuration step
+    endpoint_config_step = ModelStep(
+        name="CreateEndpointConfig",
+        step_args=model.create_endpoint_config(
+            instance_type="ml.m5.large",
+            initial_instance_count=1,
+            endpoint_config_name=Join(
+                on="-",
+                values=[endpoint_name, "config"]
+            )
+        )
+    )
+    
+    # Create the endpoint deployment step
+    deployment_step = ModelStep(
+        name="DeployEndpoint",
+        step_args=model.deploy(
+            initial_instance_count=1,
+            instance_type="ml.m5.large",
+            endpoint_name=endpoint_name,
+            endpoint_config_name=endpoint_config_step.properties.EndpointConfigName
+        )
+    )
+    
+    return deployment_step
 
 def get_step_conditional(step_name, evaluation_report, register_step):
     # Create accuracy condition to ensure the model meets performance requirements.
