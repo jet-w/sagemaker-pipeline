@@ -14,7 +14,7 @@ from steps.preprocess.process_args import get_process_args
 from steps.training.training_args import get_sklean_training_args
 from steps.evaluation.evaluation_args import get_evaluation_args, get_svm_evaluation_args
 from steps.register.register_args import get_register_args
-
+from steps.deployment.deployment_args import deploy_registered_model
 from etc import *
 
 def get_pipeline():
@@ -32,17 +32,19 @@ def get_pipeline():
         )
     )
     
-    step_train_model = TrainingStep(
-        name="HS-mlops-TrainModel", 
-        step_args=get_sklean_training_args(
+    step_args, estimator =get_sklean_training_args(
             pipeline_session, 
             step_process
         )
+    step_train_model = TrainingStep(
+        name="HS-mlops-TrainModel", 
+        step_args=step_args
     )
     
     step_evaluate_model = ProcessingStep(
         name="HS-mlops-EvaluateModelPerformance",
-        step_args=get_svm_evaluation_args(pipeline_session, step_process, step_train_model, 
+        step_args=get_svm_evaluation_args(
+            pipeline_session, step_process, step_train_model, 
                                           #s3_test_uri="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/test", 
                                           #s3_model_uri="s3://shared-hs-mlops-bucket/humansystem/preprocess/output/pipelines-9nic0w5ptfsj-HS-mlops-TrainModel-9ZvMxL6UH9/output/"
                                         ),
@@ -63,6 +65,12 @@ def get_pipeline():
     register_step = ModelStep(
         name="PipelineModel",
         step_args=get_register_args(step_evaluate_model, step_train_model),
+    )
+
+    # 3. Define the deployment step
+    deployment_step = ModelStep(
+        name="DeploySVCModel",
+        step_args=deploy_registered_model(pipeline_session, register_step, estimator)
     )
 
     #step_register_pipeline_model = get_register_pipeline_model(step_evaluate_model, step_evaluate_model, step_train_model)
@@ -94,7 +102,8 @@ def get_pipeline():
         ],
         #steps=[step_process, step_train_model, step_evaluate_model, step_cond],
         #steps=[step_process, step_train_model, step_evaluate_model],
+        steps=[step_process, step_train_model, step_evaluate_model, deployment_step],
         #steps=[step_process, step_train_model],
         #steps=[step_evaluate_model, step_cond]
-        steps = [register_step]
+        #steps = [register_step]
     )

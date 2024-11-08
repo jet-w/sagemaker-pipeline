@@ -58,7 +58,7 @@ def get_sklean_training_args(pipeline_session, step_process):
                 content_type="text/csv",
             )
         }
-    )
+    ), sklearn_estimator
 
 def get_pytorch_rnn_training_args(pipeline_session, step_process):
     # Configure the training job

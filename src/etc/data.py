@@ -60,3 +60,4 @@ s3_model_output = "s3://shared-hs-mlops-bucket/humansystem/preprocess/output/"
 #raw_s3 = sagemaker_session.upload_data(bucket = bucket, path=data_path, key_prefix=rawdata_s3_prefix)
 
 
+label_column    = ["Peer-Work", "Reflection", "Additional-Resources", "Reminders"]
