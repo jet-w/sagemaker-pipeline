@@ -14,18 +14,19 @@ def get_register_args(
         step_evaluate_model, 
         step_train_model
     ):
-    print("*"*100)
-    print(step_train_model.properties.ModelArtifacts.S3ModelArtifacts.to_string())
-    print(step_train_model.properties.ModelArtifacts.S3ModelArtifacts.expr)
-    print("#"*100)
-    svm_model_s3 = "{}/model.tar.gz".format(
-        #step_process.arguments["ProcessingOutputConfig"]["Outputs"][0]["S3Output"]["S3Uri"]
-        step_train_model.properties.ModelArtifacts.S3ModelArtifacts
-        #"s3://shared-hs-mlops-bucket/humansystem/preprocess/output/pipelines-9nic0w5ptfsj-HS-mlops-TrainModel-9ZvMxL6UH9/output"
-    )
+    #print("*"*100)
+    #print(step_train_model.properties.ModelArtifacts.S3ModelArtifacts.to_string())
+    #print(step_train_model.properties.ModelArtifacts.S3ModelArtifacts.expr)
+    #step_train_model.properties.ModelArtifacts.S3ModelArtifacts 
+    #print("#"*100)
+    #svm_model_s3 = "{}/model.tar.gz".format(
+    #    #step_process.arguments["ProcessingOutputConfig"]["Outputs"][0]["S3Output"]["S3Uri"]
+    #    step_train_model.properties.ModelArtifacts.S3ModelArtifacts
+    #    #"s3://shared-hs-mlops-bucket/humansystem/preprocess/output/pipelines-9nic0w5ptfsj-HS-mlops-TrainModel-9ZvMxL6UH9/output"
+    #)
     
     svm_model = SKLearnModel(
-        model_data=svm_model_s3,
+        model_data=step_train_model.properties.ModelArtifacts.S3ModelArtifacts,
         role=role,
         sagemaker_session=pipeline_session,
         entry_point="steps/register/svm_process.py",
