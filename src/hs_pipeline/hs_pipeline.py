@@ -123,7 +123,7 @@ def get_step_deployment(session, step_register):
     
     # Create ModelStep for deployment in the pipeline
     return ModelStep(
-        name="DeployModel",
+        name="HS-DeployModel",
         step_args=step_args
     )
 
