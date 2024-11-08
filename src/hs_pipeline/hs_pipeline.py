@@ -36,7 +36,7 @@ def get_step_training(session, step_process):
         step_args=step_args
     ), estimator
 
-def get_step_evaluation(step_process, step_train_model, evaluation_report):
+def get_step_evaluation(pipeline_session, step_process, step_train_model, evaluation_report):
     return ProcessingStep(
         name="HS-mlops-EvaluateModelPerformance",
         step_args=get_svm_evaluation_args(
@@ -47,19 +47,19 @@ def get_step_evaluation(step_process, step_train_model, evaluation_report):
         property_files=[evaluation_report],
     )
 
-def get_step_register(step_evaluate_model, step_train_model):
+def get_step_register(pipeline_session, step_evaluate_model, step_train_model):
     return ModelStep(
         name="HS-RegisterModel",
-        step_args=get_register_args(step_evaluate_model, step_train_model),
+        step_args=get_register_args(pipeline_session, step_evaluate_model, step_train_model),
     )
 
-def get_step_deployment(sklearn_estimator, step_train_model):
+def get_step_deployment(session, sklearn_estimator, step_train_model):
     # Define a model object
     model = Model(
         image_uri=sklearn_estimator.training_image_uri(),
         model_data=step_train_model.properties.ModelArtifacts.S3ModelArtifacts,  # or register_step.properties.ModelPackageArn for a registered model
         role=role,
-        sagemaker_session=sagemaker_session
+        sagemaker_session=session
     )
     
     # Define the deployment step
@@ -100,11 +100,11 @@ def get_pipeline():
         name="EvaluationReport", output_name="evaluation", path="evaluation.json"
     )
     
-    step_process = get_step_preprocess()
-    step_train_model, estimator = get_step_training(step_process)
-    step_evaluate_model = get_step_evaluation(step_process, step_train_model, evaluation_report)
-    register_step =get_step_register(step_evaluate_model, step_train_model)
-    step_deployment = get_step_deployment(estimator, step_train_model)
+    step_process = get_step_preprocess(pipeline_session)
+    step_train_model, estimator = get_step_training(pipeline_session, step_process)
+    step_evaluate_model = get_step_evaluation(pipeline_session, step_process, step_train_model, evaluation_report)
+    register_step =get_step_register(pipeline_session, step_evaluate_model, step_train_model)
+    step_deployment = get_step_deployment(pipeline_session, estimator, step_train_model)
     step_conditional = get_step_conditional(step_evaluate_model.name, evaluation_report, register_step)
 
     # Create a Sagemaker Pipeline.
