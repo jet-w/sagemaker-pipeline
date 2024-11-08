@@ -6,7 +6,7 @@ def deploy_registered_model(pipeline_session, register_step, sklearn_estimator):
     # 1. Retrieve the model package for deployment
     # Assuming register_step is your RegisterModel step
     model_package_arn = register_step.properties.ModelPackageArn
-    
+    print(model_package_arn)
     # 2. Define the Model object for the endpoint
     model = Model(
         #image_uri=sklearn_estimator.training_image_uri(),
