@@ -1,9 +1,13 @@
-from sagemaker.workflow.steps import ProcessingStep
 from sagemaker.workflow.pipeline import Pipeline
 
+
+from sagemaker.workflow.steps import ProcessingStep
 from sagemaker.workflow.steps import TrainingStep
 from sagemaker.workflow.model_step import ModelStep
 from sagemaker.workflow.condition_step import ConditionStep
+
+
+
 from sagemaker.workflow.properties import PropertyFile
 
 from sagemaker.workflow.conditions import ConditionLessThanOrEqualTo, ConditionGreaterThan
@@ -102,7 +106,7 @@ def get_pipeline():
         ],
         #steps=[step_process, step_train_model, step_evaluate_model, step_cond],
         #steps=[step_process, step_train_model, step_evaluate_model],
-        steps=[step_process, step_train_model, step_evaluate_model, deployment_step],
+        steps=[step_process, step_train_model, step_evaluate_model, step_cond]
         #steps=[step_process, step_train_model],
         #steps=[step_evaluate_model, step_cond]
         #steps = [register_step]

@@ -1,26 +1,32 @@
-from sagemaker import ModelPackage
-from etc import *
-# Assuming previous steps like train_step and register_step are already defined
 
-def deploy_registered_model(pipeline_session, register_step, sklearn_estimator):
-    # 1. Retrieve the model package for deployment
-    # Assuming register_step is your RegisterModel step
-    model_package_arn = register_step.properties.ModelPackageArn
-    print("*"*100)
-    print(model_package_arn.expr)
-    print("#"*100)
-    # 2. Define the Model object for the endpoint
-    model = ModelPackage(
-        #image_uri=sklearn_estimator.training_image_uri(),
-        model_data=model_package_arn,  # Use the registered model package ARN
+from sagemaker.processing import ProcessingInput, ProcessingOutput
+from sagemaker.sklearn.processing import SKLearnProcessor
+from etc import input_data, role, processing_instance_count, bucket
+import logging
+
+def get_process_args(pipeline_session):
+    s3_train  = f"s3://{bucket}/humansystem/preprocess/output/train"
+    s3_test   = f"s3://{bucket}/humansystem/preprocess/output/test"
+
+    sklearn_framework_version = "1.2-1"
+    sklearn_processor = SKLearnProcessor(
+        framework_version=sklearn_framework_version,
+        instance_type="ml.m5.large",
+        instance_count=processing_instance_count,
+        base_job_name="sklearn-housing-data-process",
         role=role,
         sagemaker_session=pipeline_session,
+        #image_uri=""
     )
-
-    return model.deploy(
-        initial_instance_count=1,
-        instance_type="ml.m5.large",
-        endpoint_name="HSSVCModelEndpoint"  # Specify a unique endpoint name
+    
+    #processor_args = sklearn_processor.run(
+    return sklearn_processor.run(
+        inputs=[
+            ProcessingInput(source=input_data, destination="/opt/ml/processing/input"),
+        ],
+        outputs=[
+            ProcessingOutput(output_name="train", source="/opt/ml/processing/train", destination=s3_train),
+            ProcessingOutput(output_name="test", source="/opt/ml/processing/test", destination=s3_test),
+        ],
+        code="steps/preprocess/preprocess.py",
     )
-#def deploy_model_artifact():
-#    pass
