@@ -18,7 +18,7 @@ from steps.preprocess.process_args import get_process_args
 from steps.training.training_args import get_sklean_training_args
 from steps.evaluation.evaluation_args import get_evaluation_args, get_svm_evaluation_args
 from steps.register.register_args import get_register_args
-from steps.deployment.deployment_args import deploy_registered_model
+#from steps.deployment.deployment_args import deploy_registered_model
 from etc import *
 
 def get_pipeline():
