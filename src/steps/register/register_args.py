@@ -33,8 +33,8 @@ def get_register_args(
     )
 
     evaluation_s3_uri = "{}/evaluation.json".format(
-        #step_evaluate_model.arguments["ProcessingOutputConfig"]["Outputs"][0]["S3Output"]["S3Uri"]
-        "s3://sagemaker-us-east-1-654654179472/sagemaker-scikit-learn-2024-11-06-23-13-40-345/output/evaluation"
+        step_evaluate_model.arguments["ProcessingOutputConfig"]["Outputs"][0]["S3Output"]["S3Uri"]
+        #"s3://sagemaker-us-east-1-654654179472/sagemaker-scikit-learn-2024-11-06-23-13-40-345/output/evaluation"
     )
     
     model_metrics = ModelMetrics(
