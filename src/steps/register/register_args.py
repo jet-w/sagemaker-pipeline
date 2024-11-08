@@ -15,7 +15,7 @@ def get_register_args(
         step_train_model
     ):
     print("*"*100)
-    print(step_train_model.properties.ModelArtifacts.S3ModelArtifacts)
+    print(step_train_model.properties.ModelArtifacts.S3ModelArtifacts.expr)
     print("#"*100)
     svm_model_s3 = "{}/model.tar.gz".format(
         #step_process.arguments["ProcessingOutputConfig"]["Outputs"][0]["S3Output"]["S3Uri"]
