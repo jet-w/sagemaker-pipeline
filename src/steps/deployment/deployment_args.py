@@ -1,4 +1,4 @@
-from sagemaker.model import Model
+from sagemaker import ModelPackage
 from etc import *
 # Assuming previous steps like train_step and register_step are already defined
 
@@ -10,7 +10,7 @@ def deploy_registered_model(pipeline_session, register_step, sklearn_estimator):
     print(model_package_arn.expr)
     print("#"*100)
     # 2. Define the Model object for the endpoint
-    model = Model(
+    model = ModelPackage(
         #image_uri=sklearn_estimator.training_image_uri(),
         model_data=model_package_arn,  # Use the registered model package ARN
         role=role,
@@ -20,7 +20,7 @@ def deploy_registered_model(pipeline_session, register_step, sklearn_estimator):
     return model.deploy(
         initial_instance_count=1,
         instance_type="ml.m5.large",
-        endpoint_name="SVCModelEndpoint"  # Specify a unique endpoint name
+        endpoint_name="HSSVCModelEndpoint"  # Specify a unique endpoint name
     )
 #def deploy_model_artifact():
 #    pass
