@@ -9,7 +9,7 @@ def deploy_registered_model(pipeline_session, register_step, sklearn_estimator):
     
     # 2. Define the Model object for the endpoint
     model = Model(
-        image_uri=sklearn_estimator.training_image_uri(),
+        #image_uri=sklearn_estimator.training_image_uri(),
         model_data=model_package_arn,  # Use the registered model package ARN
         role=role,
         sagemaker_session=pipeline_session,
