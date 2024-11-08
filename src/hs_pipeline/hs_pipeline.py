@@ -13,6 +13,7 @@ from sagemaker.workflow.properties import PropertyFile
 from sagemaker.workflow.conditions import ConditionLessThanOrEqualTo, ConditionGreaterThan
 from sagemaker.workflow.condition_step import ConditionStep
 from sagemaker.workflow.functions import JsonGet
+from sagemaker import ModelPackage
 
 from steps.preprocess.process_args import get_process_args
 from steps.training.training_args import get_sklean_training_args
@@ -53,7 +54,7 @@ def get_step_register(pipeline_session, step_evaluate_model, step_train_model):
         step_args=get_register_args(pipeline_session, step_evaluate_model, step_train_model),
     )
 
-def get_step_deployment(session, sklearn_estimator, step_train_model):
+def get_step_deployment1(session, sklearn_estimator, step_train_model):
     # Define a model object
     model = Model(
         image_uri=sklearn_estimator.training_image_uri(),
@@ -69,6 +70,27 @@ def get_step_deployment(session, sklearn_estimator, step_train_model):
         instance_type="ml.m5.large",
         initial_instance_count=1,
         endpoint_name="sagemaker-pipeline-endpoint"
+    )
+
+import time
+def get_step_deployment(session, step_register):
+    model = ModelPackage(
+        role=role, 
+        model_package_arn=step_register.properties.ModelPackageArn, 
+        sagemaker_session=session
+    )
+    
+    endpoint_name = "HS-endpoint-" + time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
+    print("EndpointName= {}".format(endpoint_name))
+    model.deploy(initial_instance_count=1, instance_type="ml.m5.xlarge", endpoint_name=endpoint_name)
+    # Define the deployment step
+    return ModelStep(
+        name="DeployRegisteredModel",
+        step_args=model.deploy(
+            initial_instance_count=1,
+            instance_type="ml.m5.large",
+            endpoint_name="RegisteredModelEndpoint"  # Specify a unique endpoint name
+        )
     )
 
 def get_step_conditional(step_name, evaluation_report, register_step):
@@ -104,7 +126,7 @@ def get_pipeline():
     step_train_model, estimator = get_step_training(pipeline_session, step_process)
     step_evaluate_model = get_step_evaluation(pipeline_session, step_process, step_train_model, evaluation_report)
     step_register =get_step_register(pipeline_session, step_evaluate_model, step_train_model)
-    #step_deployment = get_step_deployment(pipeline_session, estimator, step_train_model)
+    step_deployment = get_step_deployment(pipeline_session, step_register)
     step_conditional = get_step_conditional(step_evaluate_model.name, evaluation_report, step_register)
 
     # Create a Sagemaker Pipeline.
@@ -124,7 +146,7 @@ def get_pipeline():
             accuracy_mse_threshold,
         ],
         #steps=[step_process, step_train_model, step_evaluate_model, step_cond],
-        steps=[step_process, step_train_model, step_evaluate_model, step_register],
+        steps=[step_process, step_train_model, step_evaluate_model, step_register, step_deployment],
         #steps=[step_process, step_train_model, step_evaluate_model, step_cond]
         #steps=[step_process, step_train_model],
         #steps=[step_evaluate_model, step_cond]

@@ -3,6 +3,30 @@ from sagemaker.processing import ProcessingInput, ProcessingOutput
 from sagemaker.sklearn.processing import SKLearnProcessor
 from etc import input_data, role, processing_instance_count, bucket
 import logging
+import time
+from .utils import get_approved_package
+import boto3
+
+
+
+
+sm_client = boto3.client("sagemaker")
+
+pck = get_approved_package(
+    model_package_group_name
+)  # Reminder: model_package_group_name was defined as "NominetAbaloneModelPackageGroupName" at the beginning of the pipeline definition
+model_description = sm_client.describe_model_package(ModelPackageName=pck["ModelPackageArn"])
+
+from sagemaker import ModelPackage
+
+model_package_arn = model_description["ModelPackageArn"]
+model = ModelPackage(
+    role=role, model_package_arn=model_package_arn, sagemaker_session=sagemaker_session
+)
+
+endpoint_name = "DEMO-endpoint-" + time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
+print("EndpointName= {}".format(endpoint_name))
+model.deploy(initial_instance_count=1, instance_type="ml.m5.xlarge", endpoint_name=endpoint_name)
 
 #def get_deployment_args(pipeline_session):
 #    s3_train  = f"s3://{bucket}/humansystem/preprocess/output/train"
