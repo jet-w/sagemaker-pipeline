@@ -104,7 +104,7 @@ def get_pipeline():
     step_train_model, estimator = get_step_training(pipeline_session, step_process)
     step_evaluate_model = get_step_evaluation(pipeline_session, step_process, step_train_model, evaluation_report)
     register_step =get_step_register(pipeline_session, step_evaluate_model, step_train_model)
-    step_deployment = get_step_deployment(pipeline_session, estimator, step_train_model)
+    #step_deployment = get_step_deployment(pipeline_session, estimator, step_train_model)
     step_conditional = get_step_conditional(step_evaluate_model.name, evaluation_report, register_step)
 
     # Create a Sagemaker Pipeline.
