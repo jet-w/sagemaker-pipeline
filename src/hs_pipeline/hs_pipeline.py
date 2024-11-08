@@ -85,14 +85,27 @@ def get_step_deployment(session, step_register):
     #print("EndpointName= {}".format(endpoint_name))
     #model.deploy(initial_instance_count=1, instance_type="ml.m5.xlarge", endpoint_name=endpoint_name)
     # Define the deployment step
+    #return ModelStep(
+    #    name="DeployRegisteredModel",
+    #    step_args=model.deploy(
+    #        initial_instance_count=1,
+    #        instance_type="ml.m5.large",
+    #        endpoint_name="HS-RegisteredModelEndpoint"  # Specify a unique endpoint name
+    #    )
+    #)
+
+# Create model step with proper configuration
     return ModelStep(
         name="DeployRegisteredModel",
-        step_args=model.deploy(
-            initial_instance_count=1,
+        step_args=model.create(
             instance_type="ml.m5.large",
-            endpoint_name="HS-RegisteredModelEndpoint"  # Specify a unique endpoint name
+            accelerator_type=None,
+            endpoint_name="HS-RegisteredModelEndpoint"
         )
     )
+
+
+
 
 def get_step_conditional(step_name, evaluation_report, register_step):
     # Create accuracy condition to ensure the model meets performance requirements.
