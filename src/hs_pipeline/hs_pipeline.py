@@ -172,7 +172,7 @@ def get_pipeline():
         name=pipeline_name,
         parameters=[
             training_instance_type,
-            processing_instance_type,
+            "ml.t3.large",#processing_instance_type,
             processing_instance_count,
             input_data,
             model_approval_status,
