@@ -1,10 +1,10 @@
 import os
 import pandas as pd
-#import StringIO
 from io import StringIO
 import tarfile
 import joblib
-from etc import label_column
+
+label_column    = ["Peer-Work", "Reflection", "Additional-Resources", "Reminders"]
 
 def binary_to_integer(df):
     #encode_binary to integer
