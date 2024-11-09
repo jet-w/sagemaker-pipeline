@@ -32,6 +32,9 @@ def model_fn(model_dir):
         svm_modles = filter(lambda x: x.lower().endswith(".joblib"), files)
         model_files.extend([os.path.join(p, svm) for svm in svm_modles])
     
+    for p, _, files in os.walk(model_dir):
+        models.extend(list(map(lambda model: os.path.join(p, model), filter(lambda x: x==".joblib", files))))
+    
     model_path = model_files[0]
     
     return joblib.load(model_path)
