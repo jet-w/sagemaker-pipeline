@@ -9,7 +9,7 @@ def get_evaluation_args(pipeline_session, step_process, step_train_model):
     tf_eval_image_uri = sagemaker.image_uris.retrieve(
         framework="tensorflow",
         version=tensorflow_version,
-        instance_type="ml.m5.xlarge",
+        instance_type="ml.t3.medium",
         region=region,
         image_scope="training",
         py_version="py37",
@@ -47,7 +47,7 @@ def get_svm_evaluation_args(pipeline_session, step_process, step_train_model, s3
     # Define the SKLearnProcessor for evaluation
     sklearn_processor = SKLearnProcessor(
         framework_version="0.23-1",
-        instance_type="ml.m5.large",
+        instance_type="ml.t3.medium",
         instance_count=1,
         role=role,
         sagemaker_session=pipeline_session,

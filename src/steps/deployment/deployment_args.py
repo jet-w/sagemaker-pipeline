@@ -26,7 +26,7 @@ model = ModelPackage(
 
 endpoint_name = "DEMO-endpoint-" + time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
 print("EndpointName= {}".format(endpoint_name))
-model.deploy(initial_instance_count=1, instance_type="ml.m5.xlarge", endpoint_name=endpoint_name)
+model.deploy(initial_instance_count=1, instance_type="ml.t3.medium", endpoint_name=endpoint_name)
 
 #def get_deployment_args(pipeline_session):
 #    s3_train  = f"s3://{bucket}/humansystem/preprocess/output/train"
@@ -35,7 +35,7 @@ model.deploy(initial_instance_count=1, instance_type="ml.m5.xlarge", endpoint_na
 #    sklearn_framework_version = "1.2-1"
 #    sklearn_processor = SKLearnProcessor(
 #        framework_version=sklearn_framework_version,
-#        instance_type="ml.m5.large",
+#        instance_type="ml.t3.medium",
 #        instance_count=processing_instance_count,
 #        base_job_name="sklearn-housing-data-process",
 #        role=role,

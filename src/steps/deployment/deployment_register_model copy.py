@@ -17,7 +17,7 @@ def create_deployment_pipeline(
     model_package_group_name,
     pipeline_name,
     endpoint_name,
-    instance_type="ml.m5.large",
+    instance_type="ml.t3.medium",
     instance_count=1
 ):
     """
@@ -147,7 +147,7 @@ def create_conditional_deployment_pipeline(
     model_package_group_name,
     pipeline_name,
     endpoint_name,
-    instance_type="ml.m5.large",
+    instance_type="ml.t3.medium",
     instance_count=1,
     metric_threshold=0.85
 ):
