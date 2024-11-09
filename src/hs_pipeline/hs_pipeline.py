@@ -69,7 +69,7 @@ def get_step_deployment1(session, sklearn_estimator, step_train_model):
     return ModelStep(
         name="DeployModel",
         model=model,
-        instance_type="ml.t3.medium",
+        instance_type="ml.t2.medium",
         initial_instance_count=1,
         endpoint_name="sagemaker-pipeline-endpoint"
     )
@@ -85,13 +85,13 @@ def get_step_deployment2(session, step_register):
     
     #endpoint_name = "HS-endpoint-" + time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
     #print("EndpointName= {}".format(endpoint_name))
-    #model.deploy(initial_instance_count=1, instance_type="ml.t3.medium", endpoint_name=endpoint_name)
+    #model.deploy(initial_instance_count=1, instance_type="ml.t2.medium", endpoint_name=endpoint_name)
     # Define the deployment step
     #return ModelStep(
     #    name="DeployRegisteredModel",
     #    step_args=model.deploy(
     #        initial_instance_count=1,
-    #        instance_type="ml.t3.medium",
+    #        instance_type="ml.t2.medium",
     #        endpoint_name="HS-RegisteredModelEndpoint"  # Specify a unique endpoint name
     #    )
     #)
@@ -100,7 +100,7 @@ def get_step_deployment2(session, step_register):
     return ModelStep(
         name="DeployRegisteredModel",
         step_args=model.create(
-            instance_type="ml.t3.medium",
+            instance_type="ml.t2.medium",
             accelerator_type=None,
             endpoint_name="HS-RegisteredModelEndpoint"
         )
@@ -117,7 +117,7 @@ def get_step_deployment(session, step_register):
     # Prepare step arguments for model deployment
     step_args = model.deploy(
         initial_instance_count=1,
-        instance_type="ml.t3.medium",
+        instance_type="ml.t2.medium",
         endpoint_name=f"HS-endpoint-{time.strftime('%Y-%m-%d-%H-%M-%S', time.gmtime())}"
     )
     

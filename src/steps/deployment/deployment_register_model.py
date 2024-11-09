@@ -75,6 +75,6 @@ if __name__ == "__main__":
     print("EndpointName= {}".format(endpoint_name))
     model.deploy(
         initial_instance_count=1, 
-        instance_type="ml.t3.medium", 
+        instance_type="ml.t2.medium", 
         endpoint_name=endpoint_name
     )

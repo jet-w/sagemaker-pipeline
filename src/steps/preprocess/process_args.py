@@ -11,7 +11,7 @@ def get_process_args(pipeline_session):
     sklearn_framework_version = "1.2-1"
     sklearn_processor = SKLearnProcessor(
         framework_version=sklearn_framework_version,
-        instance_type="ml.t3.medium",
+        instance_type="ml.t2.medium",
         instance_count=processing_instance_count,
         base_job_name="sklearn-housing-data-process",
         role=role,
