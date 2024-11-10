@@ -21,5 +21,5 @@ training_instance_type   = ParameterString(name="TrainingInstanceType", default_
 training_epochs          = ParameterString(name="TrainingEpochs", default_value="100")
 
 evaluation_instance_type = "ml.t3.medium"#ParameterString(name="ProcessingInstanceType", default_value="ml.t2.medium")
-register_instance_type   = ParameterString(name="ProcessingInstanceType", default_value="ml.t2.medium")
+register_instance_type   = "ml.t3.medium"#ParameterString(name="ProcessingInstanceType", default_value="ml.t2.medium")
 deployment_instance_type = ParameterString(name="ProcessingInstanceType", default_value="ml.t2.medium")
