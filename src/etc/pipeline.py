@@ -13,7 +13,7 @@ input_data               = ParameterString(name="InputData", default_value=raw_s
 model_approval_status    = ParameterString(name="ModelApprovalStatus", default_value="Approved")
 
 # processing step parameters
-preprocessing_instance_type = ParameterString(name="ProcessingInstanceType", default_value="ml.m5.large")
+preprocessing_instance_type = "ml.m5.large"#ParameterString(name="ProcessingInstanceType", default_value="ml.m5.large")
 processing_instance_count= ParameterInteger(name="ProcessingInstanceCount", default_value=1)
 
 # training step parameters
