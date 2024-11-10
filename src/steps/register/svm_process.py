@@ -1,9 +1,10 @@
 import os
 import pandas as pd
-import StringIO
+from io import StringIO
 import tarfile
 import joblib
-from etc import label_column
+
+label_column    = ["Peer-Work", "Reflection", "Additional-Resources", "Reminders"]
 
 def binary_to_integer(df):
     #encode_binary to integer
@@ -30,6 +31,9 @@ def model_fn(model_dir):
     for p, _, files in os.walk("./model"):
         svm_modles = filter(lambda x: x.lower().endswith(".joblib"), files)
         model_files.extend([os.path.join(p, svm) for svm in svm_modles])
+    
+    for p, _, files in os.walk(model_dir):
+        models.extend(list(map(lambda model: os.path.join(p, model), filter(lambda x: x==".joblib", files))))
     
     model_path = model_files[0]
     

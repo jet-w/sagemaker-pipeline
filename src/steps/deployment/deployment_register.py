@@ -20,7 +20,8 @@ def create_deployment_pipeline(
     model_package_group_name,
     pipeline_name,
     endpoint_name,
-    instance_type="ml.m5.large",
+    #instance_type="ml.t2.medium",
+    instance_type="ml.t2.medium",
     instance_count=1
 ):
     """
@@ -76,7 +77,7 @@ def handler(context):
         name="GetLatestApprovedModel",
         processor=sagemaker.processing.ScriptProcessor(
             image_uri=f"137112412989.dkr.ecr.{region}.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3",
-            instance_type="ml.t3.medium",
+            instance_type="ml.t2.medium",
             instance_count=1,
             base_job_name="get-model",
             role=role
