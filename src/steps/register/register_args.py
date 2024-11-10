@@ -44,8 +44,8 @@ def get_register_args(
     return pipeline_model.register(
         content_types=["text/csv"],
         response_types=["application/json"],
-        inference_instances=["ml.t2.medium"],
-        transform_instances=["ml.t2.medium"],
+        inference_instances=[register_instance_type],
+        transform_instances=[register_instance_type],
         model_package_group_name=model_package_group_name,
         model_metrics=model_metrics,
         approval_status=model_approval_status,
