@@ -20,6 +20,6 @@ processing_instance_count= ParameterInteger(name="ProcessingInstanceCount", defa
 training_instance_type   = ParameterString(name="TrainingInstanceType", default_value="ml.t2.medium")
 training_epochs          = ParameterString(name="TrainingEpochs", default_value="100")
 
-evaluation_instance_type = ParameterString(name="ProcessingInstanceType", default_value="ml.t2.medium")
+evaluation_instance_type = "ml.t2.medium"#ParameterString(name="ProcessingInstanceType", default_value="ml.t2.medium")
 register_instance_type   = ParameterString(name="ProcessingInstanceType", default_value="ml.t2.medium")
 deployment_instance_type = ParameterString(name="ProcessingInstanceType", default_value="ml.t2.medium")
