@@ -117,7 +117,7 @@ def get_step_deployment(session, step_register):
     # Prepare step arguments for model deployment
     step_args = model.deploy(
         initial_instance_count=1,
-        instance_type="ml.t2.medium",
+        instance_type=deployment_instance_type,
         endpoint_name=f"HS-endpoint-{time.strftime('%Y-%m-%d-%H-%M-%S', time.gmtime())}"
     )
     
