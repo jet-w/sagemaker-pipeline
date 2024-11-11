@@ -26,7 +26,7 @@ def get_step_deployment(session, step_register):
         code="./steps/deployment/deploy.py",
         arguments=[
             #"--model-s3-uri", model_s3_uri,
-            "--model-package-arn", step_register.properties.ModelPackageArn,
+            #"--model-package-arn", step_register.properties.ModelPackageArn,
             "--endpoint-name", endpoint_name,
             "--instance-type", deployment_instance_type,
             "--role-arn", role_arn
