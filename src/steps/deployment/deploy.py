@@ -1,3 +1,8 @@
+import os
+import argparse
+import subprocess
+import sys
+
 def install_package(package_name):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
 
@@ -8,11 +13,6 @@ import sagemaker
 from sagemaker import ModelPackage
 # deploy_model.py
 import boto3
-import os
-import argparse
-import subprocess
-import sys
-
 sm_client = boto3.client("sagemaker", region_name='us-east-1')
 
 def deploy_model(model_s3_uri, endpoint_name, instance_type, role_arn):
