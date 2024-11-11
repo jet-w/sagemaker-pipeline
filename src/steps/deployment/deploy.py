@@ -5,7 +5,6 @@ import argparse
 #import sagemaker
 #from sagemaker import ModelPackage
 
-
 #sm_client = boto3.client("sagemaker")
 #
 #def deploy_model(model_s3_uri, endpoint_name, instance_type, role_arn):
