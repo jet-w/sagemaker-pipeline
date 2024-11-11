@@ -35,16 +35,17 @@ def get_step_deployment(session, step_register):
     
     
     #deployment_step = ProcessingStep(
-    return ProcessingStep(
-        name="DeployModelStep",
-        processor=script_processor,
-        #inputs=[],
-        #outputs=[],
-        job_arguments=[
-            #"--model-package-arn", step_register.properties.ModelPackageArn,
-            "--endpoint-name", endpoint_name,
-            "--instance-type", instance_type,
-            "--role-arn", role_arn
-        ],
-        #code="./steps/deployment/deploy.py"
-    )
+    #return ProcessingStep(
+    #    name="DeployModelStep",
+    #    processor=script_processor,
+    #    #inputs=[],
+    #    #outputs=[],
+    #    job_arguments=[
+    #        #"--model-package-arn", step_register.properties.ModelPackageArn,
+    #        "--endpoint-name", endpoint_name,
+    #        "--instance-type", instance_type,
+    #        "--role-arn", role_arn
+    #    ],
+    #    #code="./steps/deployment/deploy.py"
+    #)
+    return None
