@@ -17,7 +17,7 @@ def get_step_deployment(session, step_register):
         command=["python3"],
         instance_type=deployment_exec_instance_type,
         instance_count=1,
-        role=role_arn,
+        role=role,
         sagemaker_session=session
     )
     
