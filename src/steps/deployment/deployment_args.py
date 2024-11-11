@@ -45,7 +45,7 @@ def get_step_deployment_args(pipeline_session, step_register):
 
 def get_step_deployment(pipeline_session, step_register):
     return ProcessingStep(
-        name="HS-mlops-PreprocessData",
+        name="HS-mlops-Deployment",
         step_args=get_step_deployment_args(
             pipeline_session, step_register
         )
