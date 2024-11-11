@@ -5,7 +5,7 @@ import argparse
 import subprocess
 import sys
 
-sm_client = boto3.client("sagemaker", region_name='us-west-1')
+sm_client = boto3.client("sagemaker", region_name='us-east-1')
 
 def install_package(package_name):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
@@ -136,7 +136,7 @@ if __name__ == "__main__":
         deploy_model_pkg_arn(
             model_pkg_arn=args.model_package_arn,
             endpoint_name=args.endpoint_name,
-            instance_type=args.instance_type
+            instance_type=args.instance_type,
         )
     #deploy_model_pkg_arn(
     #    model_pkg_arn=args.model_package_arn,
