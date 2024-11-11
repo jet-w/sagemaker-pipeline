@@ -40,11 +40,11 @@ def get_step_deployment(session, step_register):
         processor=script_processor,
         #inputs=[],
         #outputs=[],
-        #job_arguments=[
-        #    "--model-s3-uri", model_s3_uri,
-        #    "--endpoint-name", endpoint_name,
-        #    "--instance-type", instance_type,
-        #    "--role-arn", role_arn
-        #],
+        job_arguments=[
+            "--model-package-arn", step_register.properties.ModelPackageArn,
+            "--endpoint-name", endpoint_name,
+            "--instance-type", instance_type,
+            "--role-arn", role_arn
+        ],
         #code="./steps/deployment/deploy.py"
     )
