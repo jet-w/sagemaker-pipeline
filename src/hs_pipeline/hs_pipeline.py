@@ -81,10 +81,10 @@ def get_pipeline():
             accuracy_mse_threshold,
         ],
         #steps=[step_process, step_train_model, step_evaluate_model, step_cond],
-        #steps=[step_process, step_train_model, step_evaluate_model, step_register, step_deployment],
+        steps=[step_process, step_train_model, step_evaluate_model, step_register]#, step_deployment],
         #steps=[step_process, step_train_model, step_evaluate_model, step_cond]
         #steps=[step_process, step_train_model],
         #steps=[step_evaluate_model, step_cond]
         #steps = [register_step]
-        steps = [step_deployment]
+        #steps = [step_deployment]
     )
