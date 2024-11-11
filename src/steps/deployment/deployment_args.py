@@ -38,7 +38,7 @@ def get_step_deployment(session, step_register):
     #deployment_step = ProcessingStep(
     return ProcessingStep(
         name="DeployModelStep",
-        processor=script_processor,
+        #processor=script_processor,
         step_args=script_processor.run(
             code="./steps/deployment/deploy.py",
             arguments=[
