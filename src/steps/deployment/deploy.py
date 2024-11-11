@@ -6,49 +6,49 @@ import argparse
 #from sagemaker import ModelPackage
 
 #sm_client = boto3.client("sagemaker")
-
-def deploy_model(model_s3_uri, endpoint_name, instance_type, role_arn):
-    print("model_s3_uri:", model_s3_uri)
-    print("endpoint_name", endpoint_name)
-    print("instance_type", instance_type)
-    print("role_arn", role_arn)
-
-    # Register the model (optional: skip if model is already registered)
-    #model_name = endpoint_name + "-model"
-    #model_data_url = model_s3_uri
 #
-    #container_def = {
-    #    "Image": "<your-image-uri>",  # specify your image URI
-    #    "ModelDataUrl": model_data_url,
-    #    "Environment": {
-    #        "SAGEMAKER_PROGRAM": "inference.py",
-    #        "SAGEMAKER_SUBMIT_DIRECTORY": model_data_url
-    #    }
-    #}
+#def deploy_model(model_s3_uri, endpoint_name, instance_type, role_arn):
+#    print("model_s3_uri:", model_s3_uri)
+#    print("endpoint_name", endpoint_name)
+#    print("instance_type", instance_type)
+#    print("role_arn", role_arn)
 #
-    #sm_client.create_model(
-    #    ModelName=model_name,
-    #    ExecutionRoleArn=role_arn,
-    #    PrimaryContainer=container_def
-    #)
+#    # Register the model (optional: skip if model is already registered)
+#    model_name = endpoint_name + "-model"
+#    model_data_url = model_s3_uri
 #
-    ## Deploy the model to a SageMaker endpoint
-    #sm_client.create_endpoint_config(
-    #    EndpointConfigName=endpoint_name + "-config",
-    #    ProductionVariants=[
-    #        {
-    #            "VariantName": "AllTraffic",
-    #            "ModelName": model_name,
-    #            "InstanceType": instance_type,
-    #            "InitialInstanceCount": 1,
-    #        },
-    #    ],
-    #)
+#    container_def = {
+#        "Image": "<your-image-uri>",  # specify your image URI
+#        "ModelDataUrl": model_data_url,
+#        "Environment": {
+#            "SAGEMAKER_PROGRAM": "inference.py",
+#            "SAGEMAKER_SUBMIT_DIRECTORY": model_data_url
+#        }
+#    }
 #
-    #sm_client.create_endpoint(
-    #    EndpointName=endpoint_name,
-    #    EndpointConfigName=endpoint_name + "-config"
-    #)
+#    sm_client.create_model(
+#        ModelName=model_name,
+#        ExecutionRoleArn=role_arn,
+#        PrimaryContainer=container_def
+#    )
+#
+#    # Deploy the model to a SageMaker endpoint
+#    sm_client.create_endpoint_config(
+#        EndpointConfigName=endpoint_name + "-config",
+#        ProductionVariants=[
+#            {
+#                "VariantName": "AllTraffic",
+#                "ModelName": model_name,
+#                "InstanceType": instance_type,
+#                "InitialInstanceCount": 1,
+#            },
+#        ],
+#    )
+#
+#    sm_client.create_endpoint(
+#        EndpointName=endpoint_name,
+#        EndpointConfigName=endpoint_name + "-config"
+#    )
 
 
 def parse_args():
@@ -62,7 +62,10 @@ def parse_args():
     return parser.parse_args()
 
 
-#def deploy_model_pkg_arn(model_pkg_arn, endpoint_name, instance_type):
+def deploy_model_pkg_arn(model_pkg_arn, endpoint_name, instance_type):
+    print("model_pkg_arn:", model_pkg_arn)
+    print("endpoint_name", endpoint_name)
+    print("instance_type", instance_type)
 #    sess              = boto3.Session()
 #    sagemaker_session = sagemaker.Session(boto_session=sess)
 #    
@@ -113,7 +116,7 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
     #if hasattr(args, "model_s3_uri"):
-    #    deploy_model_pkg_arn(
+    #    deploy_model(
     #        model_s3_uri=args.model_s3_uri,
     #        endpoint_name=args.endpoint_name,
     #        instance_type=args.instance_type,
@@ -125,7 +128,7 @@ if __name__ == "__main__":
     #        endpoint_name=args.endpoint_name,
     #        instance_type=args.instance_type
     #    )
-    deploy_model(
+    deploy_model_pkg_arn(
         model_pkg_arn=args.model_package_arn,
         endpoint_name=args.endpoint_name,
         instance_type=args.instance_type
