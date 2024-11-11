@@ -35,6 +35,7 @@ def model_fn(model_dir):
     return joblib.load(model_files[0]) if len(model_files) > 0 else None
 
 def input_fn(request_body, request_content_type):
+    print("request_data:", request_body)
     if request_content_type == "text/csv":
         df = pd.read_csv(StringIO(request_body))
         return df
@@ -43,6 +44,8 @@ def input_fn(request_body, request_content_type):
 
 def predict_fn(input_data, model):
     ret = []
+    print("Predict - Input Data:", input_data)
+    print("Predict - Model:", model)
     prediction = model.predict(input_data)
     for binary in [integer_to_binary(i) for i in prediction]:
         obj = {}
