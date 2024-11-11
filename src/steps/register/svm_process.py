@@ -24,12 +24,14 @@ def model_fn(model_dir):
     model_files = []
     print("model directory:", model_dir)
     for p, _, files in os.walk(model_dir):
+        print("Model Directory Files:", files)
         tar_files.extend(list(map(lambda model: os.path.join(p, model), filter(lambda x: x=="model.tar.gz", files))))
         model_files.extend(list(map(lambda model: os.path.join(p, model), filter(lambda x: x==".joblib", files))))
     if len(tar_files) > 0:
         with tarfile.open(tar_files[0], "r:gz") as tar:
             tar.extractall("./model")
     for p, _, files in os.walk("./model"):
+        print("Decompressed Files:", files)
         model_files.extend([os.path.join(p, svm) for svm in  filter(lambda x: x.lower().endswith(".joblib"), files)])
     
     return joblib.load(model_files[0]) if len(model_files) > 0 else None
