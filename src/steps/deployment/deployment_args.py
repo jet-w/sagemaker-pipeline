@@ -41,7 +41,7 @@ def get_step_deployment(session, step_register):
         #inputs=[],
         #outputs=[],
         job_arguments=[
-            "--model-package-arn", step_register.properties.ModelPackageArn,
+            #"--model-package-arn", step_register.properties.ModelPackageArn,
             "--endpoint-name", endpoint_name,
             "--instance-type", instance_type,
             "--role-arn", role_arn
