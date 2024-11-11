@@ -2,8 +2,6 @@
 import boto3
 import os
 import argparse
-import sagemaker
-from sagemaker import ModelPackage
 
 sm_client = boto3.client("sagemaker", region_name='us-west-1')
 
@@ -13,8 +11,7 @@ import sys
 def install_package(package_name):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
 
-# Example: Install boto3
-install_package("sagemaker")
+
 
 def deploy_model(model_s3_uri, endpoint_name, instance_type, role_arn):
     print("model_s3_uri:", model_s3_uri)
@@ -121,6 +118,11 @@ def deploy_model_pkg_arn(model_pkg_arn, endpoint_name, instance_type):
 
 if __name__ == "__main__":
     args = parse_args()
+    # Example: Install boto3
+    install_package("sagemaker")
+    import sagemaker
+    from sagemaker import ModelPackage
+    
     if hasattr(args, "model_s3_uri"):
         deploy_model(
             model_s3_uri=args.model_s3_uri,
