@@ -26,7 +26,7 @@ from sagemaker.workflow.functions import Join
 from etc import *
 
 
-def get_step_conditional(step_name, evaluation_report, register_step):
+def get_step_conditional(step_name, evaluation_report, register_step, deployment_step):
     # Create accuracy condition to ensure the model meets performance requirements.
     # Models with a test accuracy lower than the condition will not be registered with the model registry.
     #cond_lte = ConditionLessThanOrEqualTo(
@@ -42,8 +42,8 @@ def get_step_conditional(step_name, evaluation_report, register_step):
     return ConditionStep(
         name="HS-mlops-MSE-Lower-Than-Threshold-Condition",
         conditions=[cond_lte],
-        if_steps=[register_step],  # step_register_model, step_register_scaler,
-        else_steps=[],
+        if_steps=[register_step, deployment_step],  # step_register_model, step_register_scaler,
+        else_steps=[register_step],
     )
 
 
@@ -61,7 +61,7 @@ def get_pipeline():
     step_register =get_step_register(pipeline_session, step_evaluate_model, step_train_model)
 
     step_deployment = get_step_deployment(pipeline_session, step_register)
-    step_conditional = get_step_conditional(step_evaluate_model.name, evaluation_report, step_register)
+    step_conditional = get_step_conditional(step_evaluate_model.name, evaluation_report, step_register, step_deployment)
 
     # Create a Sagemaker Pipeline.
     # Each parameter for the pipeline must be set as a parameter explicitly when the pipeline is created.
