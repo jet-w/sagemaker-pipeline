@@ -60,7 +60,8 @@ def get_pipeline():
     step_evaluate_model = get_step_evaluation(pipeline_session, step_process, step_train_model, evaluation_report)
     step_register =get_step_register(pipeline_session, step_evaluate_model, step_train_model)
 
-    step_deployment = get_step_deployment(pipeline_session, step_register)
+    pkg_arn = "arn:aws:sagemaker:us-east-1:654654179472:model-package/HumanSystemsAIOpsModelPackageGroup/8"
+    step_deployment = get_step_deployment(pipeline_session, step_register, pkg_arn)
     step_conditional = get_step_conditional(step_evaluate_model.name, evaluation_report, step_register, step_deployment)
 
     # Create a Sagemaker Pipeline.
@@ -80,9 +81,10 @@ def get_pipeline():
             accuracy_mse_threshold,
         ],
         #steps=[step_process, step_train_model, step_evaluate_model, step_cond],
-        steps=[step_process, step_train_model, step_evaluate_model, step_register, step_deployment],
+        #steps=[step_process, step_train_model, step_evaluate_model, step_register, step_deployment],
         #steps=[step_process, step_train_model, step_evaluate_model, step_cond]
         #steps=[step_process, step_train_model],
         #steps=[step_evaluate_model, step_cond]
         #steps = [register_step]
+        steps = [step_deployment]
     )

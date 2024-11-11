@@ -9,7 +9,7 @@ import logging
 from etc import *
 
 endpoint_name = "HS-endpoint-Intervention-Recommendation"
-def get_step_deployment_args(pipeline_session, step_register):
+def get_step_deployment(pipeline_session, step_register, pkg_arn = None):
     s3_train  = f"s3://{bucket}/humansystem/preprocess/output/train"
     s3_test   = f"s3://{bucket}/humansystem/preprocess/output/test"
 
@@ -23,9 +23,9 @@ def get_step_deployment_args(pipeline_session, step_register):
         sagemaker_session=pipeline_session,
         #image_uri=""
     )
-    
+    pkg_arn = pkg_arn if pkg_arn else step_register.properties.ModelPackageArn
     #processor_args = sklearn_processor.run(
-    return sklearn_processor.run(
+    args = sklearn_processor.run(
         inputs=[
             ProcessingInput(source=input_data, destination="/opt/ml/processing/input"),
         ],
@@ -36,21 +36,18 @@ def get_step_deployment_args(pipeline_session, step_register):
         code="./steps/deployment/deploy.py",
         
         arguments=[
-            "--model-package-arn", step_register.properties.ModelPackageArn,
+            "--model-package-arn", pkg_arn,
             "--endpoint-name", endpoint_name,
             "--instance-type", deployment_instance_type,
             "--role-arn", role_arn
         ]
     )
 
-def get_step_deployment(pipeline_session, step_register):
+
     return ProcessingStep(
         name="HS-mlops-Deployment",
-        step_args=get_step_deployment_args(
-            pipeline_session, step_register
-        )
+        step_args=args
     )
-
 
 #from sagemaker.processing import ScriptProcessor
 #from sagemaker.workflow.parameters import ParameterString
