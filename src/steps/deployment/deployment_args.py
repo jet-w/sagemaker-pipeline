@@ -11,13 +11,14 @@ instance_type = "ml.m5.large"
 #role_arn = "<your-sagemaker-role-arn>"
 
 
-def get_step_deployment(step_register):
+def get_step_deployment(session, step_register):
     # Initialize the ScriptProcessor
     script_processor = ScriptProcessor(
         command=["python3"],
         instance_type=deployment_exec_instance_type,
         instance_count=1,
-        role=role_arn
+        role=role_arn,
+        sagemaker_session=session
     )
     
     # Run the ScriptProcessor to deploy the model
