@@ -20,24 +20,19 @@ def integer_to_binary(num: int):
     return ret
 
 def model_fn(model_dir):
-    models = []
-    for p, _, files in os.walk(model_dir):
-        models.extend(list(map(lambda model: os.path.join(p, model), filter(lambda x: x=="model.tar.gz", files))))
-
-    with tarfile.open(models[0], "r:gz") as tar:
-        tar.extractall("./model")
-    
+    tar_files = []
     model_files = []
-    for p, _, files in os.walk("./model"):
-        svm_modles = filter(lambda x: x.lower().endswith(".joblib"), files)
-        model_files.extend([os.path.join(p, svm) for svm in svm_modles])
-    
+    print("model directory:", model_dir)
     for p, _, files in os.walk(model_dir):
-        models.extend(list(map(lambda model: os.path.join(p, model), filter(lambda x: x==".joblib", files))))
+        tar_files.extend(list(map(lambda model: os.path.join(p, model), filter(lambda x: x=="model.tar.gz", files))))
+        model_files.extend(list(map(lambda model: os.path.join(p, model), filter(lambda x: x==".joblib", files))))
+    if len(tar_files) > 0:
+        with tarfile.open(tar_files[0], "r:gz") as tar:
+            tar.extractall("./model")
+    for p, _, files in os.walk("./model"):
+        model_files.extend([os.path.join(p, svm) for svm in  filter(lambda x: x.lower().endswith(".joblib"), files)])
     
-    model_path = model_files[0]
-    
-    return joblib.load(model_path)
+    return joblib.load(model_files[0]) if len(model_files) > 0 else None
 
 def input_fn(request_body, request_content_type):
     if request_content_type == "text/csv":
