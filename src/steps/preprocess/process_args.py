@@ -1,6 +1,9 @@
 
 from sagemaker.processing import ProcessingInput, ProcessingOutput
 from sagemaker.sklearn.processing import SKLearnProcessor
+
+from sagemaker.workflow.steps import ProcessingStep
+from sagemaker.processing import Processor
 from etc import input_data, role, processing_instance_count, preprocessing_instance_type, bucket
 import logging
 
@@ -29,4 +32,12 @@ def get_process_args(pipeline_session):
             ProcessingOutput(output_name="test", source="/opt/ml/processing/test", destination=s3_test),
         ],
         code="steps/preprocess/preprocess.py",
+    )
+
+def get_step_preprocess(session):
+    return ProcessingStep(
+        name="HS-mlops-PreprocessData",
+        step_args=get_process_args(
+            session
+        )
     )

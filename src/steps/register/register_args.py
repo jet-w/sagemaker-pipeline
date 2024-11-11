@@ -50,3 +50,9 @@ def get_register_args(
         model_metrics=model_metrics,
         approval_status=model_approval_status,
     )
+
+def get_step_register(pipeline_session, step_evaluate_model, step_train_model):
+    return ModelStep(
+        name="HS-RegisterModel",
+        step_args=get_register_args(pipeline_session, step_evaluate_model, step_train_model),
+    )

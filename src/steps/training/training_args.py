@@ -1,7 +1,7 @@
 from sagemaker.tensorflow import TensorFlow
 from sagemaker.pytorch import PyTorch
 from sagemaker.sklearn import SKLearn
-
+from sagemaker.workflow.steps import TrainingStep
 from sagemaker.inputs import TrainingInput
 import os
 from etc import *
@@ -102,3 +102,11 @@ def get_pytorch_rnn_training_args(pipeline_session, step_process):
         }
     )
 
+
+
+def get_step_training(session, step_process):
+    step_args, estimator =get_sklean_training_args(session, step_process)
+    return TrainingStep(
+        name="HS-mlops-TrainModel", 
+        step_args=step_args
+    ), estimator
