@@ -5,7 +5,7 @@ import argparse
 #import sagemaker
 #from sagemaker import ModelPackage
 
-sm_client = boto3.client("sagemaker")
+#sm_client = boto3.client("sagemaker")
 
 def deploy_model(model_s3_uri, endpoint_name, instance_type, role_arn):
     print("model_s3_uri:", model_s3_uri)
@@ -125,7 +125,7 @@ if __name__ == "__main__":
     #        endpoint_name=args.endpoint_name,
     #        instance_type=args.instance_type
     #    )
-    deploy_model_pkg_arn(
+    deploy_model(
         model_pkg_arn=args.model_package_arn,
         endpoint_name=args.endpoint_name,
         instance_type=args.instance_type
