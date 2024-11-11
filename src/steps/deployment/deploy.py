@@ -125,14 +125,14 @@ if __name__ == "__main__":
     model_s3_uri =args.model_s3_uri if hasattr(args, "model_s3_uri") else None
     model_package_arn =args.model_package_arn if hasattr(args, "model_package_arn") else None
 
-    if model_s3_uri:
+    if model_s3_uri is not None:
         deploy_model(
             model_s3_uri=args.model_s3_uri,
             endpoint_name=args.endpoint_name,
             instance_type=args.instance_type,
             role_arn=args.role_arn
         )
-    elif model_package_arn:
+    elif model_package_arn is not None:
         deploy_model_pkg_arn(
             model_pkg_arn=args.model_package_arn,
             endpoint_name=args.endpoint_name,
