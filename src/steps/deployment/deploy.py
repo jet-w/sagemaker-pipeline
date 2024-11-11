@@ -121,14 +121,18 @@ def deploy_model_pkg_arn(model_pkg_arn, endpoint_name, instance_type):
 
 if __name__ == "__main__":
     args = parse_args()
-    if hasattr(args, "model_s3_uri"):
+    
+    model_s3_uri =args.model_s3_uri if hasattr(args, "model_s3_uri") else None
+    model_package_arn =args.model_package_arn if hasattr(args, "model_package_arn") else None
+
+    if model_s3_uri:
         deploy_model(
             model_s3_uri=args.model_s3_uri,
             endpoint_name=args.endpoint_name,
             instance_type=args.instance_type,
             role_arn=args.role_arn
         )
-    elif hasattr(args, "model_package_arn"):
+    elif model_package_arn:
         deploy_model_pkg_arn(
             model_pkg_arn=args.model_package_arn,
             endpoint_name=args.endpoint_name,
