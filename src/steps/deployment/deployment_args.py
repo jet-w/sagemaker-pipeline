@@ -5,11 +5,11 @@ from sagemaker.workflow.steps import ProcessingStep
 from etc import *
 
 # Define parameters for deployment
-model_s3_uri = "s3://path-to-your-model-artifact/model.tar.gz"
-endpoint_name = "my-endpoint-name"
+#model_s3_uri = "s3://path-to-your-model-artifact/model.tar.gz"
+#endpoint_name = "my-endpoint-name"
 instance_type = "ml.m5.large"
 #role_arn = "<your-sagemaker-role-arn>"
-
+endpoint_name = "HS-endpoint-Intervention-Recommendation"
 
 def get_step_deployment(session, step_register):
     # Initialize the ScriptProcessor
