@@ -35,8 +35,8 @@ def get_step_deployment_args(pipeline_session, step_register):
         ],
         code="./steps/deployment/deploy.py",
         
-        job_arguments=[
-            #"--model-package-arn", step_register.properties.ModelPackageArn,
+        arguments=[
+            "--model-package-arn", step_register.properties.ModelPackageArn,
             "--endpoint-name", endpoint_name,
             "--instance-type", deployment_instance_type,
             "--role-arn", role_arn
