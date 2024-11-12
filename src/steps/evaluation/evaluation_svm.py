@@ -15,7 +15,6 @@ label_column    = ["Peer-Work", "Reflection", "Additional-Resources", "Reminders
 
 def binary_to_integer(df):
     #encode_binary to integer
-    ret = None
     for i in df.columns:
         ret = df[i].astype(str) if ret is None else ret + df[i].astype(str)
     return list(map(lambda x: int(x, 2), ret))
@@ -48,6 +47,7 @@ def get_model(model_dir):
     
     model_files = []
     for p, _, files in os.walk("./model"):
+        print(files)
         svm_modles = filter(lambda x: x.lower().endswith(".joblib"), files)
         model_files.extend([os.path.join(p, svm) for svm in svm_modles])
     
