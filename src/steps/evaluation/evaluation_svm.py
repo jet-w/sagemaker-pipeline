@@ -14,6 +14,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 label_column    = ["Peer-Work", "Reflection", "Additional-Resources", "Reminders"]
 
 def binary_to_integer(df):
+    ret = None
     #encode_binary to integer
     for i in df.columns:
         ret = df[i].astype(str) if ret is None else ret + df[i].astype(str)
