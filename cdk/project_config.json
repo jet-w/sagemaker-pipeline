@@ -1,0 +1,42 @@
+{
+  "SageMaker": {
+    "Domain": {
+      "Name": "hs-mlops-domain-cdk-test"
+    },
+    "UserProfiles": ["hs-mlops-userprofile-cdk-test"],
+    "IAMRole": {
+      "Name": "hs-mlops-role-cdk-test"
+    },
+    "VPC": {
+      "Name": "hs-mlops-vpc-cdk-test",
+      "FlowLog": {
+        "Name": "hs-mlops-flowlog-cdk-test"
+      },
+      "LogGroup": {
+        "Name": "hs-mlops-vpc-loggroup-cdk-test"
+      },
+      "IAMRole": {
+        "Name": "hs-mlops-role-log-cdk-test"
+      }
+    },
+    "Pipeline": {
+      "Name": "hs-mlops-pipeline-cdk-test",
+      "IAMRole": {
+        "Name": "hs-mlops-sagemaker-pipeline-role-cdk-test"
+      }
+    }
+  },
+  "CodeCommit": {
+    "Name": "hs-mlops-repo-cdk-test"
+  },
+  "CodePipeline": {
+    "Name": "hs-mlops-code-pipeline-cdk-test"
+  },
+  "S3": {
+    "CodeBuild": {
+      "Name": "hs-mlops-code-build-cdk-test"
+    }
+  },
+  "USE_AMT": "yes"
+}
+
